@@ -131,6 +131,22 @@ body {
   box-shadow: 0 0 40px rgba(212,175,55,0.35), 0 0 80px rgba(212,175,55,0.15);
 }
 
+.shape-label {
+  position: absolute;
+  top: 28px;
+  right: 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+.shape-label.visible { opacity: 0.7; }
+
 .scroll-hint {
   position: absolute;
   bottom: 32px;
@@ -505,6 +521,7 @@ footer span { color: var(--gold); }
 <!-- ===== HERO ===== -->
 <div class="hero">
   <canvas id="particles"></canvas>
+  <div class="shape-label" id="shape-label"></div>
   <div class="hero-content">
     <div class="hero-badge">Spaced Repetition Powered</div>
     <h1 class="hero-title">IB INTERVIEW<br>PREP</h1>
@@ -727,14 +744,188 @@ function launchApp() {
   setTimeout(tick, 1200);
 })();
 
-// ===== PARTICLE SYSTEM =====
+// ===== PARTICLE SYSTEM — BOID FLOCKING + SHAPE MORPHING =====
 (function() {
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
-  let W, H, particles = [], mouse = { x: -9999, y: -9999 };
-  const PARTICLE_COUNT = 80;
-  const CONNECT_DIST = 150;
-  const MOUSE_RADIUS = 200;
+  const shapeLabel = document.getElementById('shape-label');
+  let W, H;
+  const N = 120;
+  const particles = [];
+  const mouse = { x: -9999, y: -9999, onCanvas: false };
+
+  // --- Boid parameters ---
+  const VISUAL_RANGE = 120;
+  const SEPARATION_DIST = 28;
+  const ALIGN_FACTOR = 0.045;
+  const COHESION_FACTOR = 0.005;
+  const SEPARATION_FACTOR = 0.05;
+  const MAX_SPEED = 2.2;
+  const MIN_SPEED = 0.6;
+  const CONNECT_DIST = 100;
+
+  // --- Shape morphing state ---
+  let morphing = false;
+  let morphProgress = 0;     // 0 = flocking, 1 = fully in shape
+  let currentShapeIdx = -1;
+  let shapeTargets = [];      // [{x,y}] target positions for each particle
+  let mouseHoldTime = 0;
+  const MORPH_TRIGGER_MS = 400; // hold cursor still for this long to trigger morph
+  let lastMouseMove = 0;
+
+  // --- Wall Street shapes defined as normalized [0-1] point paths ---
+  const SHAPES = [
+    {
+      name: 'THE BULL',
+      // Charging bull silhouette — simplified outline
+      points: function(cx, cy, s) {
+        const pts = [];
+        // Body (ellipse)
+        for (let a = 0; a < Math.PI * 2; a += 0.18) {
+          pts.push({ x: cx + Math.cos(a) * s * 1.1, y: cy + Math.sin(a) * s * 0.5 + s * 0.1 });
+        }
+        // Head (offset circle)
+        for (let a = 0; a < Math.PI * 2; a += 0.35) {
+          pts.push({ x: cx - s * 1.2 + Math.cos(a) * s * 0.35, y: cy - s * 0.15 + Math.sin(a) * s * 0.3 });
+        }
+        // Left horn
+        pts.push({ x: cx - s * 1.45, y: cy - s * 0.55 });
+        pts.push({ x: cx - s * 1.55, y: cy - s * 0.85 });
+        pts.push({ x: cx - s * 1.35, y: cy - s * 0.95 });
+        // Right horn
+        pts.push({ x: cx - s * 1.0, y: cy - s * 0.55 });
+        pts.push({ x: cx - s * 0.85, y: cy - s * 0.85 });
+        pts.push({ x: cx - s * 1.05, y: cy - s * 0.95 });
+        // Legs
+        for (let i = 0; i < 4; i++) {
+          const lx = cx - s * 0.7 + i * s * 0.5;
+          pts.push({ x: lx, y: cy + s * 0.55 });
+          pts.push({ x: lx, y: cy + s * 0.85 });
+          pts.push({ x: lx + s * 0.08, y: cy + s * 0.95 });
+        }
+        // Tail
+        pts.push({ x: cx + s * 1.2, y: cy - s * 0.1 });
+        pts.push({ x: cx + s * 1.45, y: cy - s * 0.4 });
+        pts.push({ x: cx + s * 1.55, y: cy - s * 0.55 });
+        return pts;
+      }
+    },
+    {
+      name: 'THE BEAR',
+      points: function(cx, cy, s) {
+        const pts = [];
+        // Body
+        for (let a = 0; a < Math.PI * 2; a += 0.16) {
+          pts.push({ x: cx + Math.cos(a) * s * 0.9, y: cy + Math.sin(a) * s * 0.7 + s * 0.15 });
+        }
+        // Head
+        for (let a = 0; a < Math.PI * 2; a += 0.3) {
+          pts.push({ x: cx - s * 0.65 + Math.cos(a) * s * 0.38, y: cy - s * 0.65 + Math.sin(a) * s * 0.32 });
+        }
+        // Ears
+        pts.push({ x: cx - s * 0.95, y: cy - s * 1.05 });
+        pts.push({ x: cx - s * 0.85, y: cy - s * 1.15 });
+        pts.push({ x: cx - s * 0.45, y: cy - s * 1.05 });
+        pts.push({ x: cx - s * 0.35, y: cy - s * 1.15 });
+        // Snout
+        pts.push({ x: cx - s * 1.1, y: cy - s * 0.55 });
+        pts.push({ x: cx - s * 1.2, y: cy - s * 0.5 });
+        // Legs
+        for (let i = 0; i < 4; i++) {
+          const lx = cx - s * 0.55 + i * s * 0.38;
+          pts.push({ x: lx, y: cy + s * 0.75 });
+          pts.push({ x: lx, y: cy + s * 0.95 });
+        }
+        // Tail stub
+        pts.push({ x: cx + s * 0.95, y: cy - s * 0.1 });
+        pts.push({ x: cx + s * 1.1, y: cy - s * 0.05 });
+        return pts;
+      }
+    },
+    {
+      name: 'THE WHALE',
+      points: function(cx, cy, s) {
+        const pts = [];
+        // Body — large ellipse
+        for (let a = 0; a < Math.PI * 2; a += 0.11) {
+          pts.push({ x: cx + Math.cos(a) * s * 1.4, y: cy + Math.sin(a) * s * 0.5 });
+        }
+        // Tail flukes
+        pts.push({ x: cx + s * 1.55, y: cy - s * 0.45 });
+        pts.push({ x: cx + s * 1.85, y: cy - s * 0.7 });
+        pts.push({ x: cx + s * 1.65, y: cy - s * 0.15 });
+        pts.push({ x: cx + s * 1.85, y: cy + s * 0.5 });
+        pts.push({ x: cx + s * 1.55, y: cy + s * 0.3 });
+        // Eye
+        pts.push({ x: cx - s * 1.0, y: cy - s * 0.15 });
+        // Fin
+        pts.push({ x: cx - s * 0.1, y: cy - s * 0.55 });
+        pts.push({ x: cx + s * 0.15, y: cy - s * 0.85 });
+        pts.push({ x: cx + s * 0.35, y: cy - s * 0.55 });
+        // Belly line
+        for (let t = -1; t <= 0.8; t += 0.25) {
+          pts.push({ x: cx + t * s, y: cy + s * 0.35 + Math.sin(t * 2) * s * 0.08 });
+        }
+        return pts;
+      }
+    },
+    {
+      name: 'DOLLAR',
+      points: function(cx, cy, s) {
+        const pts = [];
+        // S curve of dollar sign (top arc + bottom arc)
+        for (let a = -0.5; a < Math.PI + 0.5; a += 0.15) {
+          pts.push({ x: cx + Math.cos(a + Math.PI) * s * 0.55, y: cy - s * 0.35 + Math.sin(a + Math.PI) * s * 0.35 });
+        }
+        for (let a = -0.5; a < Math.PI + 0.5; a += 0.15) {
+          pts.push({ x: cx + Math.cos(a) * s * 0.55, y: cy + s * 0.35 + Math.sin(a) * s * 0.35 });
+        }
+        // Vertical line through the $
+        for (let t = -1.1; t <= 1.1; t += 0.12) {
+          pts.push({ x: cx, y: cy + t * s * 0.85 });
+        }
+        return pts;
+      }
+    },
+    {
+      name: 'TO THE MOON',
+      // Upward arrow / rocket chart
+      points: function(cx, cy, s) {
+        const pts = [];
+        // Chart line going up (zigzag upward trend)
+        const chartPts = [
+          [-1.2, 0.6], [-0.8, 0.3], [-0.5, 0.5], [-0.1, 0.0],
+          [0.2, 0.15], [0.5, -0.35], [0.8, -0.7], [1.0, -0.85]
+        ];
+        for (const [px, py] of chartPts) {
+          pts.push({ x: cx + px * s, y: cy + py * s });
+          // Add extra dots near each point for density
+          pts.push({ x: cx + px * s + s * 0.04, y: cy + py * s + s * 0.04 });
+        }
+        // Arrow head at top right
+        pts.push({ x: cx + s * 1.0, y: cy - s * 1.05 });
+        pts.push({ x: cx + s * 1.15, y: cy - s * 0.95 });
+        pts.push({ x: cx + s * 1.2, y: cy - s * 1.15 });
+        pts.push({ x: cx + s * 0.85, y: cy - s * 1.0 });
+        pts.push({ x: cx + s * 0.75, y: cy - s * 0.85 });
+        // X axis
+        for (let t = -1.2; t <= 1.1; t += 0.15) {
+          pts.push({ x: cx + t * s, y: cy + s * 0.7 });
+        }
+        // Y axis
+        for (let t = -1.0; t <= 0.7; t += 0.15) {
+          pts.push({ x: cx - s * 1.2, y: cy + t * s });
+        }
+        // Fill area under chart with scatter
+        for (const [px, py] of chartPts) {
+          for (let fy = py; fy < 0.65; fy += 0.25) {
+            pts.push({ x: cx + px * s + (Math.random() - 0.5) * s * 0.1, y: cy + fy * s + s * 0.1 });
+          }
+        }
+        return pts;
+      }
+    }
+  ];
 
   function resize() {
     W = canvas.width = canvas.offsetWidth;
@@ -743,15 +934,19 @@ function launchApp() {
   window.addEventListener('resize', resize);
   resize();
 
-  // Create particles
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
+  // Create boid particles
+  // Start them in a loose school near center
+  for (let i = 0; i < N; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 1.5 + 0.5;
     particles.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.6,
-      vy: (Math.random() - 0.5) * 0.6,
-      r: Math.random() * 2 + 1,
-      alpha: Math.random() * 0.5 + 0.3
+      x: W * 0.3 + Math.random() * W * 0.4,
+      y: H * 0.2 + Math.random() * H * 0.6,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      r: Math.random() * 1.8 + 1.2,
+      alpha: Math.random() * 0.4 + 0.4,
+      tx: 0, ty: 0 // morph target
     });
   }
 
@@ -759,72 +954,206 @@ function launchApp() {
     const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
+    mouse.onCanvas = true;
+    lastMouseMove = performance.now();
   });
-  canvas.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+  canvas.addEventListener('mouseleave', () => {
+    mouse.x = -9999; mouse.y = -9999;
+    mouse.onCanvas = false;
+    mouseHoldTime = 0;
+  });
+
+  // Generate shape targets for N particles
+  function generateShapeTargets(shapeIdx) {
+    const shape = SHAPES[shapeIdx];
+    const cx = W / 2;
+    const cy = H / 2;
+    const s = Math.min(W, H) * 0.2;
+    const rawPts = shape.points(cx, cy, s);
+
+    // Distribute N particles across the shape points
+    shapeTargets = [];
+    for (let i = 0; i < N; i++) {
+      const srcPt = rawPts[i % rawPts.length];
+      // Add small jitter so overlapping points spread a bit
+      shapeTargets.push({
+        x: srcPt.x + (Math.random() - 0.5) * 8,
+        y: srcPt.y + (Math.random() - 0.5) * 8
+      });
+    }
+
+    // Sort particles and targets by angle from center for smoother transitions
+    const angleOf = (p) => Math.atan2(p.y - cy, p.x - cx);
+    const idxArr = particles.map((_, i) => i);
+    idxArr.sort((a, b) => angleOf(particles[a]) - angleOf(particles[b]));
+    const sortedTargets = [...shapeTargets].sort((a, b) => angleOf(a) - angleOf(b));
+    idxArr.forEach((pi, si) => {
+      particles[pi].tx = sortedTargets[si].x;
+      particles[pi].ty = sortedTargets[si].y;
+    });
+  }
+
+  function clampSpeed(vx, vy, max, min) {
+    const spd = Math.sqrt(vx * vx + vy * vy);
+    if (spd > max) { vx = (vx / spd) * max; vy = (vy / spd) * max; }
+    else if (spd < min && spd > 0) { vx = (vx / spd) * min; vy = (vy / spd) * min; }
+    return [vx, vy];
+  }
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
+    const now = performance.now();
 
-    // Update & draw particles
-    for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0) p.x = W;
-      if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H;
-      if (p.y > H) p.y = 0;
-
-      // Mouse repulsion
-      const dx = p.x - mouse.x;
-      const dy = p.y - mouse.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < MOUSE_RADIUS && dist > 0) {
-        const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.02;
-        p.vx += (dx / dist) * force;
-        p.vy += (dy / dist) * force;
-      }
-
-      // Dampen velocity
-      p.vx *= 0.999;
-      p.vy *= 0.999;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(212,175,55,' + p.alpha + ')';
-      ctx.fill();
+    // --- Morph trigger logic ---
+    if (mouse.onCanvas && now - lastMouseMove > MORPH_TRIGGER_MS && !morphing) {
+      // Cursor has been still long enough → trigger shape
+      morphing = true;
+      currentShapeIdx = (currentShapeIdx + 1) % SHAPES.length;
+      generateShapeTargets(currentShapeIdx);
+      shapeLabel.textContent = SHAPES[currentShapeIdx].name;
+      shapeLabel.classList.add('visible');
     }
 
-    // Draw connections
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
+    if (morphing && now - lastMouseMove < 100) {
+      // Cursor moved → release from shape
+      morphing = false;
+      shapeLabel.classList.remove('visible');
+    }
+
+    // Morph progress easing
+    if (morphing && morphProgress < 1) {
+      morphProgress = Math.min(1, morphProgress + 0.018);
+    } else if (!morphing && morphProgress > 0) {
+      morphProgress = Math.max(0, morphProgress - 0.025);
+    }
+
+    const mp = morphProgress;
+    const flock = 1 - mp;
+
+    // --- Update each particle ---
+    for (let i = 0; i < N; i++) {
+      const p = particles[i];
+
+      if (flock > 0.01) {
+        // Boid forces
+        let sepX = 0, sepY = 0, alignX = 0, alignY = 0, cohX = 0, cohY = 0;
+        let neighbors = 0;
+
+        for (let j = 0; j < N; j++) {
+          if (i === j) continue;
+          const dx = particles[j].x - p.x;
+          const dy = particles[j].y - p.y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < VISUAL_RANGE && d > 0) {
+            neighbors++;
+            alignX += particles[j].vx;
+            alignY += particles[j].vy;
+            cohX += particles[j].x;
+            cohY += particles[j].y;
+            if (d < SEPARATION_DIST) {
+              sepX -= dx / d;
+              sepY -= dy / d;
+            }
+          }
+        }
+
+        if (neighbors > 0) {
+          // Alignment
+          p.vx += ((alignX / neighbors) - p.vx) * ALIGN_FACTOR * flock;
+          p.vy += ((alignY / neighbors) - p.vy) * ALIGN_FACTOR * flock;
+          // Cohesion
+          p.vx += ((cohX / neighbors) - p.x) * COHESION_FACTOR * flock;
+          p.vy += ((cohY / neighbors) - p.y) * COHESION_FACTOR * flock;
+        }
+        // Separation
+        p.vx += sepX * SEPARATION_FACTOR * flock;
+        p.vy += sepY * SEPARATION_FACTOR * flock;
+
+        // Edge steering (soft turn at edges)
+        const margin = 80;
+        if (p.x < margin) p.vx += (margin - p.x) * 0.003;
+        if (p.x > W - margin) p.vx -= (p.x - (W - margin)) * 0.003;
+        if (p.y < margin) p.vy += (margin - p.y) * 0.003;
+        if (p.y > H - margin) p.vy -= (p.y - (H - margin)) * 0.003;
+      }
+
+      if (mp > 0.01) {
+        // Morph toward target
+        const dx = p.tx - p.x;
+        const dy = p.ty - p.y;
+        p.vx += dx * 0.04 * mp;
+        p.vy += dy * 0.04 * mp;
+        // Extra damping when morphing for stability
+        p.vx *= (1 - 0.06 * mp);
+        p.vy *= (1 - 0.06 * mp);
+      }
+
+      // Clamp speed
+      const maxSpd = MAX_SPEED * (1 - mp * 0.5);
+      const minSpd = flock > 0.5 ? MIN_SPEED : 0;
+      [p.vx, p.vy] = clampSpeed(p.vx, p.vy, maxSpd, minSpd);
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Wrap edges (only when flocking)
+      if (flock > 0.5) {
+        if (p.x < -20) p.x = W + 20;
+        if (p.x > W + 20) p.x = -20;
+        if (p.y < -20) p.y = H + 20;
+        if (p.y > H + 20) p.y = -20;
+      }
+
+      // Draw particle (gold, teardrop-ish shape pointing in movement direction)
+      const angle = Math.atan2(p.vy, p.vx);
+      const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+      const stretch = 1 + spd * 0.25 * flock;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(angle);
+      ctx.scale(stretch, 1);
+      ctx.beginPath();
+      ctx.arc(0, 0, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212,175,55,' + (p.alpha * (0.7 + mp * 0.3)) + ')';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Draw connections (shorter range during morph for cleaner shape)
+    const connDist = CONNECT_DIST * (1 - mp * 0.4);
+    for (let i = 0; i < N; i++) {
+      for (let j = i + 1; j < N; j++) {
         const dx = particles[i].x - particles[j].x;
         const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < CONNECT_DIST) {
-          const alpha = (1 - dist / CONNECT_DIST) * 0.15;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < connDist) {
+          const alpha = (1 - d / connDist) * (0.1 + mp * 0.12);
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.strokeStyle = 'rgba(212,175,55,' + alpha + ')';
-          ctx.lineWidth = 0.8;
+          ctx.lineWidth = 0.7;
           ctx.stroke();
         }
       }
     }
 
-    // Mouse connections
-    for (const p of particles) {
-      const dx = p.x - mouse.x;
-      const dy = p.y - mouse.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < MOUSE_RADIUS) {
-        const alpha = (1 - dist / MOUSE_RADIUS) * 0.3;
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(mouse.x, mouse.y);
-        ctx.strokeStyle = 'rgba(240,200,84,' + alpha + ')';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+    // Mouse glow when flocking
+    if (flock > 0.3 && mouse.onCanvas) {
+      for (const p of particles) {
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 180) {
+          const alpha = (1 - d / 180) * 0.2 * flock;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = 'rgba(240,200,84,' + alpha + ')';
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
       }
     }
 
