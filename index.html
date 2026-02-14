@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IB Interview Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #1a1a24;
+  --border: #2a2a3a;
+  --text: #e8e8f0;
+  --text-dim: #777788;
+  --gold: #d4af37;
+  --gold-light: #f0c854;
+  --gold-dim: rgba(212,175,55,0.15);
+  --blue: #4f8aff;
+  --green: #34d399;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ============ HERO ============ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+#particles {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 24px;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  background: rgba(212,175,55,0.06);
+  padding: 8px 20px;
+  border-radius: 100px;
+  margin-bottom: 32px;
+  animation: fadeInDown 1s ease 0.2s both;
+}
+
+.hero-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(40px, 7vw, 80px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 24px;
+  animation: fadeInUp 1s ease 0.4s both;
+}
+
+.hero-subtitle {
+  font-size: clamp(16px, 2.5vw, 22px);
+  color: var(--text-dim);
+  margin-bottom: 12px;
+  animation: fadeInUp 1s ease 0.6s both;
+}
+
+.typewriter-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--gold);
+  min-height: 28px;
+  margin-bottom: 40px;
+  animation: fadeInUp 1s ease 0.7s both;
+}
+.typewriter-line .cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--gold);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.8s step-end infinite;
+}
+
+.hero-cta {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  padding: 16px 40px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 30px rgba(212,175,55,0.2), 0 0 60px rgba(212,175,55,0.1);
+  animation: fadeInUp 1s ease 0.9s both;
+}
+.hero-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 40px rgba(212,175,55,0.35), 0 0 80px rgba(212,175,55,0.15);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-dim);
+  font-size: 12px;
+  animation: bounce 2s ease infinite 2s;
+  z-index: 1;
+}
+.scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, var(--text-dim), transparent);
+  margin: 8px auto 0;
+}
+
+/* ============ TICKER ============ */
+.ticker {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  padding: 14px 0;
+  position: relative;
+}
+.ticker::before, .ticker::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.ticker::before { left: 0; background: linear-gradient(to right, var(--surface), transparent); }
+.ticker::after { right: 0; background: linear-gradient(to left, var(--surface), transparent); }
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: tickerScroll 30s linear infinite;
+}
+.ticker-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--gold);
+  white-space: nowrap;
+  padding: 0 24px;
+  letter-spacing: 0.5px;
+}
+.ticker-dot {
+  color: var(--text-dim);
+  padding: 0 8px;
+  opacity: 0.4;
+}
+
+/* ============ SECTIONS (shared) ============ */
+section {
+  padding: 100px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+}
+
+.section-desc {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 560px;
+  line-height: 1.6;
+  margin-bottom: 48px;
+}
+
+/* ============ FEATURES ============ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 24px;
+  transition: all 0.35s ease;
+}
+.feature-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(212,175,55,0.08);
+}
+
+.feature-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.feature-card h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.feature-card .feat-num {
+  color: var(--gold);
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ============ HOW IT WORKS ============ */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  max-width: 640px;
+}
+
+.steps::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  top: 48px;
+  bottom: 48px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold), var(--gold-dim), transparent);
+}
+
+.step {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 24px 0;
+}
+
+.step-num {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  position: relative;
+  z-index: 1;
+}
+
+.step-content h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.step-content p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ============ CURRICULUM TIMELINE ============ */
+.timeline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 800px;
+}
+
+.phase-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.phase-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.phase-card:hover { border-color: var(--gold-dim); }
+.phase-card:hover::before { opacity: 1; }
+
+.phase-weeks {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.phase-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.phase-card p {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* ============ FINAL CTA ============ */
+.final-cta {
+  text-align: center;
+  padding: 100px 24px 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.final-cta h2 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--gold-light), #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.final-cta p {
+  color: var(--text-dim);
+  font-size: 16px;
+  margin-bottom: 36px;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-primary {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  padding: 16px 36px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 30px rgba(212,175,55,0.15);
+}
+.cta-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 40px rgba(212,175,55,0.3);
+}
+
+.cta-secondary {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold);
+  padding: 16px 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.cta-secondary:hover {
+  background: var(--gold-dim);
+  transform: translateY(-3px);
+}
+
+/* ============ FOOTER ============ */
+footer {
+  text-align: center;
+  padding: 40px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+footer span { color: var(--gold); }
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+.reveal-delay-6 { transition-delay: 0.6s; }
+.reveal-delay-7 { transition-delay: 0.7s; }
+.reveal-delay-8 { transition-delay: 0.8s; }
+
+/* ============ MOBILE RESPONSIVE ============ */
+@media (max-width: 768px) {
+  section { padding: 64px 20px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: 1fr; }
+  .steps::before { left: 27px; }
+  .cta-buttons { flex-direction: column; align-items: center; }
+  .cta-primary, .cta-secondary { width: 100%; max-width: 300px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <canvas id="particles"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge">Spaced Repetition Powered</div>
+    <h1 class="hero-title">IB INTERVIEW<br>PREP</h1>
+    <p class="hero-subtitle">The only flashcard system built for investment banking recruiting.</p>
+    <div class="typewriter-line"><span id="typewriter"></span><span class="cursor"></span></div>
+    <button class="hero-cta" onclick="launchApp()">Launch App &rarr;</button>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</div>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker">
+  <div class="ticker-track" id="ticker">
+    <span class="ticker-item">DCF Analysis</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">M&amp;A</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">LBO Modeling</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Valuation</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Enterprise Value</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Restructuring</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">WACC</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Accretion / Dilution</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Financial Statements</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Comparable Analysis</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Precedent Transactions</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Behavioral / Fit</span><span class="ticker-dot">&bull;</span>
+
+    <span class="ticker-item">DCF Analysis</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">M&amp;A</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">LBO Modeling</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Valuation</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Enterprise Value</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Restructuring</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">WACC</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Accretion / Dilution</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Financial Statements</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Comparable Analysis</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Precedent Transactions</span><span class="ticker-dot">&bull;</span>
+    <span class="ticker-item">Behavioral / Fit</span><span class="ticker-dot">&bull;</span>
+  </div>
+</div>
+
+<!-- ===== FEATURES ===== -->
+<section>
+  <div class="reveal">
+    <div class="section-label">Why This App</div>
+    <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
+    <p class="section-desc">Built specifically for IB recruiting. No generic trivia &mdash; every card is a real interview question with a banker-approved answer.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal reveal-delay-1">
+      <span class="feature-icon">&#128202;</span>
+      <h3><span class="feat-num">402</span> Questions</h3>
+      <p>From accounting fundamentals to advanced restructuring. Technical, behavioral, and deal experience questions all included.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <span class="feature-icon">&#128197;</span>
+      <h3><span class="feat-num">26</span>-Week Curriculum</h3>
+      <p>A structured learning path that takes you from "why banking?" all the way to paper LBOs and distressed M&A.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-3">
+      <span class="feature-icon">&#129504;</span>
+      <h3>Spaced Repetition</h3>
+      <p>SM-2 algorithm schedules reviews at the optimal moment. You'll remember what you study &mdash; not just cram and forget.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-4">
+      <span class="feature-icon">&#128260;</span>
+      <h3>Cross-Device Sync</h3>
+      <p>Study on your phone during your commute, review on your laptop at night. Progress syncs instantly via cloud.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section>
+  <div class="reveal">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Learn. Study. Master.</h2>
+    <p class="section-desc">Three steps between you and your dream offer.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal reveal-delay-1">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Read the Guide</h3>
+        <p>Each week starts with a concise study guide that teaches you the core concepts &mdash; from the three financial statements to the mechanics of an LBO.</p>
+      </div>
+    </div>
+    <div class="step reveal reveal-delay-2">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Unlock &amp; Study</h3>
+        <p>After reading, unlock that week's flashcards. Flip each card, think about your answer, then rate your confidence. The algorithm handles the rest.</p>
+      </div>
+    </div>
+    <div class="step reveal reveal-delay-3">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Master Everything</h3>
+        <p>Cards you struggle with come back sooner. Cards you know get spaced further apart. By interview day, every answer is second nature.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CURRICULUM ===== -->
+<section>
+  <div class="reveal">
+    <div class="section-label">The Curriculum</div>
+    <h2 class="section-title">26 weeks. 8 phases.<br>Complete preparation.</h2>
+    <p class="section-desc">From your personal story to paper LBOs &mdash; a structured path that mirrors how top candidates actually prepare.</p>
+  </div>
+  <div class="timeline">
+    <div class="phase-card reveal reveal-delay-1">
+      <div class="phase-weeks">WEEKS 1 &ndash; 8</div>
+      <h4>Behavioral &amp; Fit</h4>
+      <p>Your story, why banking, strengths & weaknesses, leadership, industry knowledge, culture fit.</p>
+    </div>
+    <div class="phase-card reveal reveal-delay-2">
+      <div class="phase-weeks">WEEKS 9 &ndash; 11</div>
+      <h4>Accounting</h4>
+      <p>Income statement, balance sheet, cash flow, three-statement linkages, advanced topics.</p>
+    </div>
+    <div class="phase-card reveal reveal-delay-3">
+      <div class="phase-weeks">WEEKS 12 &ndash; 15</div>
+      <h4>Valuation</h4>
+      <p>EV vs equity value, comps, precedent transactions, DCF overview, advanced valuation.</p>
+    </div>
+    <div class="phase-card reveal reveal-delay-4">
+      <div class="phase-weeks">WEEKS 16 &ndash; 18</div>
+      <h4>DCF Analysis</h4>
+      <p>Free cash flow, WACC, terminal value, sensitivity analysis, mid-year convention.</p>
+    </div>
+    <div class="phase-card reveal reveal-delay-5">
+      <div class="phase-weeks">WEEKS 19 &ndash; 20</div>
+      <h4>Mergers &amp; Acquisitions</h4>
+      <p>M&A fundamentals, accretion/dilution, synergies, sources & uses, pro forma modeling.</p>
+    </div>
+    <div class="phase-card reveal reveal-delay-6">
+      <div class="phase-weeks">WEEKS 21 &ndash; 22</div>
+      <h4>Leveraged Buyouts</h4>
+      <p>PE mechanics, debt tranches, return drivers, paper LBO, MOIC, dividend recaps.</p>
+    </div>
+    <div class="phase-card reveal reveal-delay-7">
+      <div class="phase-weeks">WEEKS 23 &ndash; 25</div>
+      <h4>Restructuring</h4>
+      <p>Chapter 11 vs 7, absolute priority, fulcrum security, distressed M&A, DIP financing.</p>
+    </div>
+    <div class="phase-card reveal reveal-delay-8">
+      <div class="phase-weeks">WEEK 26</div>
+      <h4>Final Prep</h4>
+      <p>Deal discussions, brain teasers, market sizing. Tie it all together for interview day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<div class="final-cta">
+  <div class="reveal">
+    <h2>Ready to Break In?</h2>
+    <p>402 questions stand between you and walking into that interview with total confidence.</p>
+  </div>
+  <div class="cta-buttons reveal reveal-delay-1">
+    <button class="cta-primary" onclick="launchApp()">Launch App &rarr;</button>
+    <button class="cta-secondary" onclick="launchApp()">I'm on Mobile</button>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  Built for aspiring bankers. &nbsp;<span>&bull;</span>&nbsp; Progress syncs across all your devices.
+</footer>
+
+<script>
+// ===== DEVICE DETECTION & REDIRECT =====
+function launchApp() {
+  var isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    || (navigator.maxTouchPoints > 1 && window.innerWidth < 1024);
+  if (isMobile) {
+    window.location.href = 'ib_flashcards.html';
+  } else {
+    window.location.href = 'ib_flashcards_desktop.html';
+  }
+}
+
+// ===== TYPEWRITER =====
+(function() {
+  const phrases = [
+    '402 Questions. 26 Weeks. One Goal.',
+    'Behavioral. Technical. Deal Experience.',
+    'Spaced Repetition. Real Retention.',
+    'Phone. Laptop. Always In Sync.',
+    'From "Walk me through a DCF" to "Why banking?"'
+  ];
+  const el = document.getElementById('typewriter');
+  let phraseIdx = 0, charIdx = 0, deleting = false;
+
+  function tick() {
+    const current = phrases[phraseIdx];
+    if (!deleting) {
+      el.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+      if (charIdx === current.length) {
+        setTimeout(() => { deleting = true; tick(); }, 2200);
+        return;
+      }
+      setTimeout(tick, 50 + Math.random() * 30);
+    } else {
+      el.textContent = current.substring(0, charIdx);
+      charIdx--;
+      if (charIdx < 0) {
+        deleting = false;
+        charIdx = 0;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+        setTimeout(tick, 400);
+        return;
+      }
+      setTimeout(tick, 25);
+    }
+  }
+  setTimeout(tick, 1200);
+})();
+
+// ===== PARTICLE SYSTEM =====
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], mouse = { x: -9999, y: -9999 };
+  const PARTICLE_COUNT = 80;
+  const CONNECT_DIST = 150;
+  const MOUSE_RADIUS = 200;
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Create particles
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+      r: Math.random() * 2 + 1,
+      alpha: Math.random() * 0.5 + 0.3
+    });
+  }
+
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+  canvas.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Update & draw particles
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+
+      // Mouse repulsion
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_RADIUS && dist > 0) {
+        const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.02;
+        p.vx += (dx / dist) * force;
+        p.vy += (dy / dist) * force;
+      }
+
+      // Dampen velocity
+      p.vx *= 0.999;
+      p.vy *= 0.999;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212,175,55,' + p.alpha + ')';
+      ctx.fill();
+    }
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = (1 - dist / CONNECT_DIST) * 0.15;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(212,175,55,' + alpha + ')';
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Mouse connections
+    for (const p of particles) {
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_RADIUS) {
+        const alpha = (1 - dist / MOUSE_RADIUS) * 0.3;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.strokeStyle = 'rgba(240,200,84,' + alpha + ')';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ===== SCROLL REVEAL =====
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+</script>
+</body>
+</html>
