@@ -3,20 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IB Interview Prep</title>
+<title>IB Interview Prep — 402 Flashcards for Investment Banking Interviews</title>
+<meta name="description" content="Master investment banking interviews with 402 spaced-repetition flashcards. Covers technicals, behavioral, DCF, M&A, LBO, and restructuring. Free, cross-device, 26-week curriculum.">
+<meta property="og:title" content="IB Interview Prep — 402 Flashcards for Investment Banking">
+<meta property="og:description" content="The only flashcard system built for investment banking recruiting. Spaced repetition, 26-week curriculum, cross-device sync.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IB Interview Prep — 402 Flashcards">
+<meta name="twitter:description" content="Master investment banking interviews with spaced repetition flashcards.">
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a0f;
-  --surface: #111118;
-  --surface2: #1a1a24;
-  --border: #2a2a3a;
+  --bg: #0a0a1a;
+  --surface: #0f1120;
+  --surface2: #161830;
+  --border: #1e2240;
   --text: #e8e8f0;
-  --text-dim: #777788;
-  --gold: #d4af37;
-  --gold-light: #f0c854;
-  --gold-dim: rgba(212,175,55,0.15);
-  --blue: #4f8aff;
+  --text-dim: #777798;
+  --accent: #4f8aff;
+  --accent-light: #7aabff;
+  --accent-dim: rgba(79,138,255,0.15);
   --green: #34d399;
 }
 
@@ -62,9 +69,9 @@ body {
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold-dim);
-  background: rgba(212,175,55,0.06);
+  color: var(--accent);
+  border: 1px solid var(--accent-dim);
+  background: rgba(79,138,255,0.06);
   padding: 8px 20px;
   border-radius: 100px;
   margin-bottom: 32px;
@@ -77,7 +84,7 @@ body {
   font-weight: 800;
   letter-spacing: -2px;
   line-height: 1.05;
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, #fff 100%);
+  background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 40%, #fff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -95,7 +102,7 @@ body {
 .typewriter-line {
   font-family: 'JetBrains Mono', monospace;
   font-size: clamp(14px, 2vw, 18px);
-  color: var(--gold);
+  color: var(--accent);
   min-height: 28px;
   margin-bottom: 40px;
   animation: fadeInUp 1s ease 0.7s both;
@@ -104,7 +111,7 @@ body {
   display: inline-block;
   width: 2px;
   height: 1em;
-  background: var(--gold);
+  background: var(--accent);
   margin-left: 2px;
   vertical-align: text-bottom;
   animation: blink 0.8s step-end infinite;
@@ -115,20 +122,20 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 16px;
   font-weight: 700;
-  color: var(--bg);
-  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
   padding: 16px 40px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 0 30px rgba(212,175,55,0.2), 0 0 60px rgba(212,175,55,0.1);
+  box-shadow: 0 0 30px rgba(79,138,255,0.2), 0 0 60px rgba(79,138,255,0.1);
   animation: fadeInUp 1s ease 0.9s both;
 }
 .hero-cta:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 40px rgba(212,175,55,0.35), 0 0 80px rgba(212,175,55,0.15);
+  box-shadow: 0 0 40px rgba(79,138,255,0.35), 0 0 80px rgba(79,138,255,0.15);
 }
 
 .shape-label {
@@ -139,7 +146,7 @@ body {
   font-size: 13px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--accent);
   opacity: 0;
   transition: opacity 0.5s ease;
   z-index: 2;
@@ -194,7 +201,7 @@ body {
 .ticker-item {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
-  color: var(--gold);
+  color: var(--accent);
   white-space: nowrap;
   padding: 0 24px;
   letter-spacing: 0.5px;
@@ -217,7 +224,7 @@ section {
   font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--accent);
   margin-bottom: 12px;
 }
 
@@ -252,9 +259,9 @@ section {
   transition: all 0.35s ease;
 }
 .feature-card:hover {
-  border-color: var(--gold);
+  border-color: var(--accent);
   transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(212,175,55,0.08);
+  box-shadow: 0 8px 32px rgba(79,138,255,0.08);
 }
 
 .feature-icon {
@@ -271,7 +278,7 @@ section {
 }
 
 .feature-card .feat-num {
-  color: var(--gold);
+  color: var(--accent);
 }
 
 .feature-card p {
@@ -296,7 +303,7 @@ section {
   top: 48px;
   bottom: 48px;
   width: 2px;
-  background: linear-gradient(to bottom, var(--gold), var(--gold-dim), transparent);
+  background: linear-gradient(to bottom, var(--accent), var(--accent-dim), transparent);
 }
 
 .step {
@@ -311,15 +318,15 @@ section {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--gold-dim);
-  border: 2px solid var(--gold);
+  background: var(--accent-dim);
+  border: 2px solid var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'JetBrains Mono', monospace;
   font-size: 20px;
   font-weight: 700;
-  color: var(--gold);
+  color: var(--accent);
   position: relative;
   z-index: 1;
 }
@@ -360,17 +367,17 @@ section {
   top: 0; left: 0;
   width: 3px;
   height: 100%;
-  background: var(--gold);
+  background: var(--accent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-.phase-card:hover { border-color: var(--gold-dim); }
+.phase-card:hover { border-color: var(--accent-dim); }
 .phase-card:hover::before { opacity: 1; }
 
 .phase-weeks {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: var(--gold);
+  color: var(--accent);
   letter-spacing: 1px;
   margin-bottom: 6px;
 }
@@ -401,7 +408,7 @@ section {
   font-weight: 800;
   letter-spacing: -1.5px;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, var(--gold-light), #fff);
+  background: linear-gradient(135deg, var(--accent-light), #fff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -424,36 +431,52 @@ section {
   font-family: 'JetBrains Mono', monospace;
   font-size: 15px;
   font-weight: 700;
-  color: var(--bg);
-  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
   padding: 16px 36px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 30px rgba(212,175,55,0.15);
+  box-shadow: 0 0 30px rgba(79,138,255,0.15);
 }
 .cta-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 40px rgba(212,175,55,0.3);
+  box-shadow: 0 0 40px rgba(79,138,255,0.3);
 }
 
 .cta-secondary {
   font-family: 'JetBrains Mono', monospace;
   font-size: 15px;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--accent);
   background: transparent;
-  border: 1px solid var(--gold);
+  border: 1px solid var(--accent);
   padding: 16px 36px;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 .cta-secondary:hover {
-  background: var(--gold-dim);
+  background: var(--accent-dim);
   transform: translateY(-3px);
 }
+
+/* ============ STATS BAR ============ */
+.stats-bar { display: flex; justify-content: center; gap: 32px; padding: 32px 24px; flex-wrap: wrap; }
+.stat-pill { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-dim); }
+.stat-pill .stat-num { color: var(--accent); font-weight: 700; font-size: 18px; margin-right: 4px; }
+
+/* ============ FAQ ============ */
+.faq-list { max-width: 700px; display: flex; flex-direction: column; gap: 8px; }
+.faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.3s; }
+.faq-item:hover { border-color: rgba(79,138,255,0.3); }
+.faq-q { width: 100%; padding: 18px 20px; border: none; background: none; color: var(--text); font-size: 15px; font-weight: 600; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Inter', sans-serif; }
+.faq-arrow { font-size: 10px; color: var(--text-dim); transition: transform 0.3s; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+.faq-item.open .faq-a { max-height: 200px; padding: 0 20px 18px; }
+.faq-a p { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
 
 /* ============ FOOTER ============ */
 footer {
@@ -463,7 +486,7 @@ footer {
   font-size: 13px;
   color: var(--text-dim);
 }
-footer span { color: var(--gold); }
+footer span { color: var(--accent); }
 
 /* ============ ANIMATIONS ============ */
 @keyframes fadeInUp {
@@ -561,6 +584,14 @@ footer span { color: var(--gold); }
     <span class="ticker-item">Precedent Transactions</span><span class="ticker-dot">&bull;</span>
     <span class="ticker-item">Behavioral / Fit</span><span class="ticker-dot">&bull;</span>
   </div>
+</div>
+
+<!-- ===== STATS BAR ===== -->
+<div class="stats-bar">
+  <div class="stat-pill"><span class="stat-num">402</span> Questions</div>
+  <div class="stat-pill"><span class="stat-num">26</span> Week Plan</div>
+  <div class="stat-pill"><span class="stat-num">8</span> Topic Areas</div>
+  <div class="stat-pill"><span class="stat-num">100%</span> Free</div>
 </div>
 
 <!-- ===== FEATURES ===== -->
@@ -677,6 +708,40 @@ footer span { color: var(--gold); }
   </div>
 </section>
 
+<!-- ===== FAQ ===== -->
+<section>
+  <div class="reveal">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Common Questions</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item reveal reveal-delay-1">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is this actually free?<span class="faq-arrow">&#9660;</span></button>
+      <div class="faq-a"><p>Yes, completely free. No accounts, no paywalls, no hidden fees. All 402 cards are available from day one.</p></div>
+    </div>
+    <div class="faq-item reveal reveal-delay-2">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">How does cross-device sync work?<span class="faq-arrow">&#9660;</span></button>
+      <div class="faq-a"><p>Set a passphrase in Settings, and your progress syncs via the cloud in real-time. Use the same passphrase on any device. No account needed.</p></div>
+    </div>
+    <div class="faq-item reveal reveal-delay-3">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What topics are covered?<span class="faq-arrow">&#9660;</span></button>
+      <div class="faq-a"><p>Everything: behavioral &amp; fit, accounting, valuation, DCF, M&amp;A, leveraged buyouts, restructuring, brain teasers, and deal discussions. Structured across 26 weeks and 8 phases.</p></div>
+    </div>
+    <div class="faq-item reveal reveal-delay-4">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What is spaced repetition?<span class="faq-arrow">&#9660;</span></button>
+      <div class="faq-a"><p>A scientifically-proven study method. Cards you struggle with come back sooner; cards you know are spaced further apart. You spend time on what you need to learn, not what you already know.</p></div>
+    </div>
+    <div class="faq-item reveal reveal-delay-5">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do I need to follow the 26-week plan?<span class="faq-arrow">&#9660;</span></button>
+      <div class="faq-a"><p>No. The curriculum is recommended, but you can unlock any week's cards whenever you want. If your interview is soon, skip straight to the topics you need.</p></div>
+    </div>
+    <div class="faq-item reveal reveal-delay-6">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Who built this?<span class="faq-arrow">&#9660;</span></button>
+      <div class="faq-a"><p>Built by someone who went through IB recruiting and wished this existed. Every question and answer has been reviewed against Wall Street Oasis, Rosenbaum &amp; Pearl, and real interview experiences.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== FINAL CTA ===== -->
 <div class="final-cta">
   <div class="reveal">
@@ -685,16 +750,19 @@ footer span { color: var(--gold); }
   </div>
   <div class="cta-buttons reveal reveal-delay-1">
     <button class="cta-primary" onclick="launchApp()">Launch App &rarr;</button>
-    <button class="cta-secondary" onclick="launchApp()">I'm on Mobile</button>
+    <button class="cta-secondary" onclick="document.querySelector('.faq-list').scrollIntoView({behavior:'smooth'})">Learn More</button>
   </div>
 </div>
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  Built for aspiring bankers. &nbsp;<span>&bull;</span>&nbsp; Progress syncs across all your devices.
+  <div style="margin-bottom:8px"><span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:700">IB PREP</span></div>
+  <div>402 questions &bull; 26 weeks &bull; 100% free &bull; No account required</div>
+  <div style="margin-top:8px;font-size:11px">Built for aspiring bankers. Progress syncs across all your devices.</div>
 </footer>
 
 <script>
+
 // ===== DEVICE DETECTION & REDIRECT =====
 function launchApp() {
   var isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
@@ -717,215 +785,41 @@ function launchApp() {
   ];
   const el = document.getElementById('typewriter');
   let phraseIdx = 0, charIdx = 0, deleting = false;
-
   function tick() {
     const current = phrases[phraseIdx];
     if (!deleting) {
       el.textContent = current.substring(0, charIdx + 1);
       charIdx++;
-      if (charIdx === current.length) {
-        setTimeout(() => { deleting = true; tick(); }, 2200);
-        return;
-      }
+      if (charIdx === current.length) { setTimeout(() => { deleting = true; tick(); }, 2200); return; }
       setTimeout(tick, 50 + Math.random() * 30);
     } else {
       el.textContent = current.substring(0, charIdx);
       charIdx--;
-      if (charIdx < 0) {
-        deleting = false;
-        charIdx = 0;
-        phraseIdx = (phraseIdx + 1) % phrases.length;
-        setTimeout(tick, 400);
-        return;
-      }
+      if (charIdx < 0) { deleting = false; charIdx = 0; phraseIdx = (phraseIdx + 1) % phrases.length; setTimeout(tick, 400); return; }
       setTimeout(tick, 25);
     }
   }
   setTimeout(tick, 1200);
 })();
 
-// ===== PARTICLE SYSTEM — BOID FLOCKING + SHAPE MORPHING =====
+// ===== PARTICLES.JS STYLE NETWORK =====
 (function() {
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
-  const shapeLabel = document.getElementById('shape-label');
   let W, H;
-  const N = 120;
-  const particles = [];
-  const mouse = { x: -9999, y: -9999, onCanvas: false };
 
-  // --- Boid parameters ---
-  const VISUAL_RANGE = 120;
-  const SEPARATION_DIST = 28;
-  const ALIGN_FACTOR = 0.045;
-  const COHESION_FACTOR = 0.005;
-  const SEPARATION_FACTOR = 0.05;
-  const MAX_SPEED = 2.2;
-  const MIN_SPEED = 0.6;
-  const CONNECT_DIST = 100;
+  const COUNT = 120;         // particle count (scales with screen)
+  const LINK_DIST = 150;     // max distance for connecting lines
+  const MOUSE_LINK = 200;    // mouse connection radius
+  const SPEED = 0.3;         // base movement speed
 
-  // --- Shape morphing state ---
-  let morphing = false;
-  let morphProgress = 0;     // 0 = flocking, 1 = fully in shape
-  let currentShapeIdx = -1;
-  let shapeTargets = [];      // [{x,y}] target positions for each particle
-  let mouseHoldTime = 0;
-  const MORPH_TRIGGER_MS = 400; // hold cursor still for this long to trigger morph
-  let lastMouseMove = 0;
-
-  // --- Wall Street shapes defined as normalized [0-1] point paths ---
-  const SHAPES = [
-    {
-      name: 'THE BULL',
-      // Charging bull silhouette — simplified outline
-      points: function(cx, cy, s) {
-        const pts = [];
-        // Body (ellipse)
-        for (let a = 0; a < Math.PI * 2; a += 0.18) {
-          pts.push({ x: cx + Math.cos(a) * s * 1.1, y: cy + Math.sin(a) * s * 0.5 + s * 0.1 });
-        }
-        // Head (offset circle)
-        for (let a = 0; a < Math.PI * 2; a += 0.35) {
-          pts.push({ x: cx - s * 1.2 + Math.cos(a) * s * 0.35, y: cy - s * 0.15 + Math.sin(a) * s * 0.3 });
-        }
-        // Left horn
-        pts.push({ x: cx - s * 1.45, y: cy - s * 0.55 });
-        pts.push({ x: cx - s * 1.55, y: cy - s * 0.85 });
-        pts.push({ x: cx - s * 1.35, y: cy - s * 0.95 });
-        // Right horn
-        pts.push({ x: cx - s * 1.0, y: cy - s * 0.55 });
-        pts.push({ x: cx - s * 0.85, y: cy - s * 0.85 });
-        pts.push({ x: cx - s * 1.05, y: cy - s * 0.95 });
-        // Legs
-        for (let i = 0; i < 4; i++) {
-          const lx = cx - s * 0.7 + i * s * 0.5;
-          pts.push({ x: lx, y: cy + s * 0.55 });
-          pts.push({ x: lx, y: cy + s * 0.85 });
-          pts.push({ x: lx + s * 0.08, y: cy + s * 0.95 });
-        }
-        // Tail
-        pts.push({ x: cx + s * 1.2, y: cy - s * 0.1 });
-        pts.push({ x: cx + s * 1.45, y: cy - s * 0.4 });
-        pts.push({ x: cx + s * 1.55, y: cy - s * 0.55 });
-        return pts;
-      }
-    },
-    {
-      name: 'THE BEAR',
-      points: function(cx, cy, s) {
-        const pts = [];
-        // Body
-        for (let a = 0; a < Math.PI * 2; a += 0.16) {
-          pts.push({ x: cx + Math.cos(a) * s * 0.9, y: cy + Math.sin(a) * s * 0.7 + s * 0.15 });
-        }
-        // Head
-        for (let a = 0; a < Math.PI * 2; a += 0.3) {
-          pts.push({ x: cx - s * 0.65 + Math.cos(a) * s * 0.38, y: cy - s * 0.65 + Math.sin(a) * s * 0.32 });
-        }
-        // Ears
-        pts.push({ x: cx - s * 0.95, y: cy - s * 1.05 });
-        pts.push({ x: cx - s * 0.85, y: cy - s * 1.15 });
-        pts.push({ x: cx - s * 0.45, y: cy - s * 1.05 });
-        pts.push({ x: cx - s * 0.35, y: cy - s * 1.15 });
-        // Snout
-        pts.push({ x: cx - s * 1.1, y: cy - s * 0.55 });
-        pts.push({ x: cx - s * 1.2, y: cy - s * 0.5 });
-        // Legs
-        for (let i = 0; i < 4; i++) {
-          const lx = cx - s * 0.55 + i * s * 0.38;
-          pts.push({ x: lx, y: cy + s * 0.75 });
-          pts.push({ x: lx, y: cy + s * 0.95 });
-        }
-        // Tail stub
-        pts.push({ x: cx + s * 0.95, y: cy - s * 0.1 });
-        pts.push({ x: cx + s * 1.1, y: cy - s * 0.05 });
-        return pts;
-      }
-    },
-    {
-      name: 'THE WHALE',
-      points: function(cx, cy, s) {
-        const pts = [];
-        // Body — large ellipse
-        for (let a = 0; a < Math.PI * 2; a += 0.11) {
-          pts.push({ x: cx + Math.cos(a) * s * 1.4, y: cy + Math.sin(a) * s * 0.5 });
-        }
-        // Tail flukes
-        pts.push({ x: cx + s * 1.55, y: cy - s * 0.45 });
-        pts.push({ x: cx + s * 1.85, y: cy - s * 0.7 });
-        pts.push({ x: cx + s * 1.65, y: cy - s * 0.15 });
-        pts.push({ x: cx + s * 1.85, y: cy + s * 0.5 });
-        pts.push({ x: cx + s * 1.55, y: cy + s * 0.3 });
-        // Eye
-        pts.push({ x: cx - s * 1.0, y: cy - s * 0.15 });
-        // Fin
-        pts.push({ x: cx - s * 0.1, y: cy - s * 0.55 });
-        pts.push({ x: cx + s * 0.15, y: cy - s * 0.85 });
-        pts.push({ x: cx + s * 0.35, y: cy - s * 0.55 });
-        // Belly line
-        for (let t = -1; t <= 0.8; t += 0.25) {
-          pts.push({ x: cx + t * s, y: cy + s * 0.35 + Math.sin(t * 2) * s * 0.08 });
-        }
-        return pts;
-      }
-    },
-    {
-      name: 'DOLLAR',
-      points: function(cx, cy, s) {
-        const pts = [];
-        // S curve of dollar sign (top arc + bottom arc)
-        for (let a = -0.5; a < Math.PI + 0.5; a += 0.15) {
-          pts.push({ x: cx + Math.cos(a + Math.PI) * s * 0.55, y: cy - s * 0.35 + Math.sin(a + Math.PI) * s * 0.35 });
-        }
-        for (let a = -0.5; a < Math.PI + 0.5; a += 0.15) {
-          pts.push({ x: cx + Math.cos(a) * s * 0.55, y: cy + s * 0.35 + Math.sin(a) * s * 0.35 });
-        }
-        // Vertical line through the $
-        for (let t = -1.1; t <= 1.1; t += 0.12) {
-          pts.push({ x: cx, y: cy + t * s * 0.85 });
-        }
-        return pts;
-      }
-    },
-    {
-      name: 'TO THE MOON',
-      // Upward arrow / rocket chart
-      points: function(cx, cy, s) {
-        const pts = [];
-        // Chart line going up (zigzag upward trend)
-        const chartPts = [
-          [-1.2, 0.6], [-0.8, 0.3], [-0.5, 0.5], [-0.1, 0.0],
-          [0.2, 0.15], [0.5, -0.35], [0.8, -0.7], [1.0, -0.85]
-        ];
-        for (const [px, py] of chartPts) {
-          pts.push({ x: cx + px * s, y: cy + py * s });
-          // Add extra dots near each point for density
-          pts.push({ x: cx + px * s + s * 0.04, y: cy + py * s + s * 0.04 });
-        }
-        // Arrow head at top right
-        pts.push({ x: cx + s * 1.0, y: cy - s * 1.05 });
-        pts.push({ x: cx + s * 1.15, y: cy - s * 0.95 });
-        pts.push({ x: cx + s * 1.2, y: cy - s * 1.15 });
-        pts.push({ x: cx + s * 0.85, y: cy - s * 1.0 });
-        pts.push({ x: cx + s * 0.75, y: cy - s * 0.85 });
-        // X axis
-        for (let t = -1.2; t <= 1.1; t += 0.15) {
-          pts.push({ x: cx + t * s, y: cy + s * 0.7 });
-        }
-        // Y axis
-        for (let t = -1.0; t <= 0.7; t += 0.15) {
-          pts.push({ x: cx - s * 1.2, y: cy + t * s });
-        }
-        // Fill area under chart with scatter
-        for (const [px, py] of chartPts) {
-          for (let fy = py; fy < 0.65; fy += 0.25) {
-            pts.push({ x: cx + px * s + (Math.random() - 0.5) * s * 0.1, y: cy + fy * s + s * 0.1 });
-          }
-        }
-        return pts;
-      }
-    }
-  ];
+  const mouse = { x: -9999, y: -9999 };
+  canvas.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+  });
+  canvas.addEventListener('mouseleave', () => { mouse.x = mouse.y = -9999; });
 
   function resize() {
     W = canvas.width = canvas.offsetWidth;
@@ -934,246 +828,114 @@ function launchApp() {
   window.addEventListener('resize', resize);
   resize();
 
-  // Create boid particles
-  // Start them in a loose school near center
-  for (let i = 0; i < N; i++) {
+  // Scale particle count with viewport area
+  const density = Math.floor(COUNT * (W * H) / (1920 * 1080));
+  const numParticles = Math.max(60, Math.min(200, density));
+
+  // Create particles
+  const particles = [];
+  for (let i = 0; i < numParticles; i++) {
     const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 1.5 + 0.5;
     particles.push({
-      x: W * 0.3 + Math.random() * W * 0.4,
-      y: H * 0.2 + Math.random() * H * 0.6,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      r: Math.random() * 1.8 + 1.2,
-      alpha: Math.random() * 0.4 + 0.4,
-      tx: 0, ty: 0 // morph target
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: Math.cos(angle) * SPEED * (0.5 + Math.random()),
+      vy: Math.sin(angle) * SPEED * (0.5 + Math.random()),
+      r: 1.2 + Math.random() * 1.8    // radius: small crisp dots
     });
   }
 
-  canvas.addEventListener('mousemove', e => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
-    mouse.onCanvas = true;
-    lastMouseMove = performance.now();
-  });
-  canvas.addEventListener('mouseleave', () => {
-    mouse.x = -9999; mouse.y = -9999;
-    mouse.onCanvas = false;
-    mouseHoldTime = 0;
-  });
-
-  // Generate shape targets for N particles
-  function generateShapeTargets(shapeIdx) {
-    const shape = SHAPES[shapeIdx];
-    const cx = W / 2;
-    const cy = H / 2;
-    const s = Math.min(W, H) * 0.2;
-    const rawPts = shape.points(cx, cy, s);
-
-    // Distribute N particles across the shape points
-    shapeTargets = [];
-    for (let i = 0; i < N; i++) {
-      const srcPt = rawPts[i % rawPts.length];
-      // Add small jitter so overlapping points spread a bit
-      shapeTargets.push({
-        x: srcPt.x + (Math.random() - 0.5) * 8,
-        y: srcPt.y + (Math.random() - 0.5) * 8
-      });
-    }
-
-    // Sort particles and targets by angle from center for smoother transitions
-    const angleOf = (p) => Math.atan2(p.y - cy, p.x - cx);
-    const idxArr = particles.map((_, i) => i);
-    idxArr.sort((a, b) => angleOf(particles[a]) - angleOf(particles[b]));
-    const sortedTargets = [...shapeTargets].sort((a, b) => angleOf(a) - angleOf(b));
-    idxArr.forEach((pi, si) => {
-      particles[pi].tx = sortedTargets[si].x;
-      particles[pi].ty = sortedTargets[si].y;
-    });
-  }
-
-  function clampSpeed(vx, vy, max, min) {
-    const spd = Math.sqrt(vx * vx + vy * vy);
-    if (spd > max) { vx = (vx / spd) * max; vy = (vy / spd) * max; }
-    else if (spd < min && spd > 0) { vx = (vx / spd) * min; vy = (vy / spd) * min; }
-    return [vx, vy];
-  }
-
-  function draw() {
+  function frame() {
     ctx.clearRect(0, 0, W, H);
-    const now = performance.now();
 
-    // --- Morph trigger logic ---
-    if (mouse.onCanvas && now - lastMouseMove > MORPH_TRIGGER_MS && !morphing) {
-      // Cursor has been still long enough → trigger shape
-      morphing = true;
-      currentShapeIdx = (currentShapeIdx + 1) % SHAPES.length;
-      generateShapeTargets(currentShapeIdx);
-      shapeLabel.textContent = SHAPES[currentShapeIdx].name;
-      shapeLabel.classList.add('visible');
-    }
-
-    if (morphing && now - lastMouseMove < 100) {
-      // Cursor moved → release from shape
-      morphing = false;
-      shapeLabel.classList.remove('visible');
-    }
-
-    // Morph progress easing
-    if (morphing && morphProgress < 1) {
-      morphProgress = Math.min(1, morphProgress + 0.018);
-    } else if (!morphing && morphProgress > 0) {
-      morphProgress = Math.max(0, morphProgress - 0.025);
-    }
-
-    const mp = morphProgress;
-    const flock = 1 - mp;
-
-    // --- Update each particle ---
-    for (let i = 0; i < N; i++) {
+    // Update positions
+    for (let i = 0; i < numParticles; i++) {
       const p = particles[i];
-
-      if (flock > 0.01) {
-        // Boid forces
-        let sepX = 0, sepY = 0, alignX = 0, alignY = 0, cohX = 0, cohY = 0;
-        let neighbors = 0;
-
-        for (let j = 0; j < N; j++) {
-          if (i === j) continue;
-          const dx = particles[j].x - p.x;
-          const dy = particles[j].y - p.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < VISUAL_RANGE && d > 0) {
-            neighbors++;
-            alignX += particles[j].vx;
-            alignY += particles[j].vy;
-            cohX += particles[j].x;
-            cohY += particles[j].y;
-            if (d < SEPARATION_DIST) {
-              sepX -= dx / d;
-              sepY -= dy / d;
-            }
-          }
-        }
-
-        if (neighbors > 0) {
-          // Alignment
-          p.vx += ((alignX / neighbors) - p.vx) * ALIGN_FACTOR * flock;
-          p.vy += ((alignY / neighbors) - p.vy) * ALIGN_FACTOR * flock;
-          // Cohesion
-          p.vx += ((cohX / neighbors) - p.x) * COHESION_FACTOR * flock;
-          p.vy += ((cohY / neighbors) - p.y) * COHESION_FACTOR * flock;
-        }
-        // Separation
-        p.vx += sepX * SEPARATION_FACTOR * flock;
-        p.vy += sepY * SEPARATION_FACTOR * flock;
-
-        // Edge steering (soft turn at edges)
-        const margin = 80;
-        if (p.x < margin) p.vx += (margin - p.x) * 0.003;
-        if (p.x > W - margin) p.vx -= (p.x - (W - margin)) * 0.003;
-        if (p.y < margin) p.vy += (margin - p.y) * 0.003;
-        if (p.y > H - margin) p.vy -= (p.y - (H - margin)) * 0.003;
-      }
-
-      if (mp > 0.01) {
-        // Morph toward target
-        const dx = p.tx - p.x;
-        const dy = p.ty - p.y;
-        p.vx += dx * 0.04 * mp;
-        p.vy += dy * 0.04 * mp;
-        // Extra damping when morphing for stability
-        p.vx *= (1 - 0.06 * mp);
-        p.vy *= (1 - 0.06 * mp);
-      }
-
-      // Clamp speed
-      const maxSpd = MAX_SPEED * (1 - mp * 0.5);
-      const minSpd = flock > 0.5 ? MIN_SPEED : 0;
-      [p.vx, p.vy] = clampSpeed(p.vx, p.vy, maxSpd, minSpd);
-
       p.x += p.vx;
       p.y += p.vy;
 
-      // Wrap edges (only when flocking)
-      if (flock > 0.5) {
-        if (p.x < -20) p.x = W + 20;
-        if (p.x > W + 20) p.x = -20;
-        if (p.y < -20) p.y = H + 20;
-        if (p.y > H + 20) p.y = -20;
+      // Wrap around edges (seamless)
+      if (p.x < -50) p.x += W + 100;
+      if (p.x > W + 50) p.x -= W + 100;
+      if (p.y < -50) p.y += H + 100;
+      if (p.y > H + 50) p.y -= H + 100;
+    }
+
+    // Draw connections between nearby particles
+    for (let i = 0; i < numParticles; i++) {
+      const a = particles[i];
+      for (let j = i + 1; j < numParticles; j++) {
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < LINK_DIST) {
+          const opacity = (1 - dist / LINK_DIST) * 0.25;
+          ctx.strokeStyle = 'rgba(79,138,255,' + opacity + ')';
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
       }
+    }
 
-      // Draw particle (gold, teardrop-ish shape pointing in movement direction)
-      const angle = Math.atan2(p.vy, p.vx);
-      const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      const stretch = 1 + spd * 0.25 * flock;
+    // Draw connections from mouse to nearby particles
+    for (let i = 0; i < numParticles; i++) {
+      const p = particles[i];
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
 
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(angle);
-      ctx.scale(stretch, 1);
+      if (dist < MOUSE_LINK) {
+        const opacity = (1 - dist / MOUSE_LINK) * 0.4;
+        ctx.strokeStyle = 'rgba(79,138,255,' + opacity + ')';
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(mouse.x, mouse.y);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+      }
+    }
+
+    // Draw particles (small crisp circles with subtle glow)
+    for (let i = 0; i < numParticles; i++) {
+      const p = particles[i];
+
+      // Outer glow
       ctx.beginPath();
-      ctx.arc(0, 0, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(212,175,55,' + (p.alpha * (0.7 + mp * 0.3)) + ')';
+      ctx.arc(p.x, p.y, p.r * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(79,138,255,0.08)';
       ctx.fill();
-      ctx.restore();
+
+      // Core dot
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(160,195,255,0.75)';
+      ctx.fill();
     }
 
-    // Draw connections (shorter range during morph for cleaner shape)
-    const connDist = CONNECT_DIST * (1 - mp * 0.4);
-    for (let i = 0; i < N; i++) {
-      for (let j = i + 1; j < N; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < connDist) {
-          const alpha = (1 - d / connDist) * (0.1 + mp * 0.12);
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = 'rgba(212,175,55,' + alpha + ')';
-          ctx.lineWidth = 0.7;
-          ctx.stroke();
-        }
-      }
-    }
-
-    // Mouse glow when flocking
-    if (flock > 0.3 && mouse.onCanvas) {
-      for (const p of particles) {
-        const dx = p.x - mouse.x;
-        const dy = p.y - mouse.y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < 180) {
-          const alpha = (1 - d / 180) * 0.2 * flock;
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = 'rgba(240,200,84,' + alpha + ')';
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
-        }
-      }
-    }
-
-    requestAnimationFrame(draw);
+    requestAnimationFrame(frame);
   }
-  draw();
+
+  frame();
 })();
 
 // ===== SCROLL REVEAL =====
 (function() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.15 });
-
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 })();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
 </script>
 </body>
 </html>

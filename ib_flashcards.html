@@ -73,40 +73,100 @@ body {
 .dashboard { animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-.progress-ring {
-  display: flex; justify-content: center; margin: 24px 0;
-}
-.ring-container { position: relative; width: 160px; height: 160px; }
-.ring-container svg { transform: rotate(-90deg); }
-.ring-center {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  text-align: center;
-}
-.ring-center .pct { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; }
-.ring-center .label { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
-
-.stats-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;
-}
-.stat-card {
+/* Metrics Bar — 2x2 grid on mobile */
+.metrics-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.metric-card {
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-  padding: 16px; text-align: center;
+  padding: 14px; display: flex; align-items: center; gap: 10px;
 }
-.stat-card .num {
-  font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700;
+.metric-icon { font-size: 20px; flex-shrink: 0; }
+.metric-info { min-width: 0; }
+.metric-val {
+  font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; line-height: 1.1;
 }
-.stat-card .lbl { font-size: 11px; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.metric-lbl { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
 
-.section-breakdown { margin-top: 24px; }
-.section-breakdown h3 {
-  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+/* Heatmap */
+.heatmap-panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px; margin-bottom: 16px;
+}
+.heatmap-panel h3 {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;
+}
+.heatmap-wrap { display: flex; gap: 4px; overflow-x: auto; }
+.heatmap-days { display: flex; flex-direction: column; gap: 2px; }
+.heatmap-days span { font-size: 8px; color: var(--text-dim); height: 12px; line-height: 12px; }
+.heatmap-grid { display: grid; grid-template-rows: repeat(7, 12px); grid-auto-flow: column; grid-auto-columns: 12px; gap: 2px; }
+.hm-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--surface2); }
+.hm-cell.l1 { background: rgba(79,138,255,0.18); }
+.hm-cell.l2 { background: rgba(79,138,255,0.38); }
+.hm-cell.l3 { background: rgba(79,138,255,0.58); }
+.hm-cell.l4 { background: rgba(79,138,255,0.85); }
+.heatmap-legend { display: flex; align-items: center; gap: 3px; margin-top: 8px; justify-content: flex-end; }
+.heatmap-legend span { font-size: 8px; color: var(--text-dim); }
+.heatmap-legend .hm-cell { width: 8px; height: 8px; }
+
+/* Progress ring + mini stats */
+.ring-panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px; display: flex; flex-direction: column; align-items: center; margin-bottom: 16px;
+}
+.progress-ring { display: flex; justify-content: center; margin: 0; }
+.ring-container { position: relative; width: 120px; height: 120px; }
+.ring-container svg { transform: rotate(-90deg); width: 120px; height: 120px; }
+.ring-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;
+}
+.ring-center .pct { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; }
+.ring-center .label { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+.mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; width: 100%; }
+.mini-stat { text-align: center; padding: 4px 0; }
+.mini-stat .num { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; }
+.mini-stat .lbl { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.3px; margin-top: 1px; }
+
+/* Radar chart */
+.radar-panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 24px; margin-bottom: 16px; overflow: visible;
+}
+.radar-panel h3 {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--text-dim); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px;
+}
+.radar-container { display: flex; justify-content: center; overflow: visible; }
+
+/* Forecast */
+.forecast-panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px; margin-bottom: 16px;
+}
+.forecast-panel h3 {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
   color: var(--text-dim); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;
 }
+.forecast-bars { display: flex; gap: 6px; align-items: flex-end; height: 80px; }
+.forecast-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.forecast-bar {
+  width: 100%; border-radius: 3px 3px 0 0; background: var(--accent);
+  min-height: 2px; transition: height 0.5s ease; opacity: 0.7;
+}
+.forecast-col:first-child .forecast-bar { opacity: 1; }
+.forecast-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); }
+.forecast-day { font-size: 9px; color: var(--text-dim); text-transform: uppercase; }
+
+/* Section breakdown */
+.section-breakdown { margin-top: 0; }
+.section-breakdown h3 {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;
+}
 .section-row {
-  display: flex; align-items: center; gap: 10px; padding: 8px 0;
+  display: flex; align-items: center; gap: 8px; padding: 7px 0;
   border-bottom: 1px solid var(--border);
 }
-.section-row .sec-name { flex: 1; font-size: 13px; color: var(--text); }
+.section-row .sec-name { flex: 1; font-size: 12px; color: var(--text); }
 .section-row .sec-bar { width: 80px; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
 .section-row .sec-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
 .section-row .sec-count { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-dim); min-width: 40px; text-align: right; }
@@ -373,9 +433,55 @@ body {
   background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
   padding: 10px 14px; margin-bottom: 6px; font-size: 13px; color: var(--text-dim);
 }
+
+/* Toast notifications */
+.toast-container { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none; display: flex; flex-direction: column; align-items: center; }
+.toast { padding: 8px 16px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; animation: toastIn 0.3s ease, toastOut 0.3s ease 1.2s forwards; margin-top: 6px; text-align: center; }
+.toast.green { background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.3); color: var(--green); }
+.toast.yellow { background: rgba(251,191,36,0.15); border: 1px solid rgba(251,191,36,0.3); color: var(--yellow); }
+.toast.neutral { background: rgba(136,136,153,0.15); border: 1px solid rgba(136,136,153,0.3); color: var(--text-dim); }
+@keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+
+/* Welcome & milestone modals */
+.welcome-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 10000; display: flex; align-items: center; justify-content: center; animation: wFadeIn 0.3s ease; padding: 16px; }
+.welcome-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; max-width: 400px; width: 100%; text-align: center; }
+.welcome-modal h2 { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; margin-bottom: 8px; background: linear-gradient(135deg, var(--accent), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.welcome-modal p { color: var(--text-dim); font-size: 13px; line-height: 1.6; margin-bottom: 12px; }
+.welcome-steps { text-align: left; margin: 16px 0; }
+.welcome-step { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; font-size: 12px; color: var(--text); }
+.welcome-step .step-icon { font-size: 16px; flex-shrink: 0; }
+.welcome-btn { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--accent), #6ba3ff); border: none; padding: 12px 28px; border-radius: 10px; cursor: pointer; margin-top: 8px; }
+@keyframes wFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Session summary */
+.session-summary { text-align: center; padding: 32px 16px; }
+.session-summary h2 { font-family: 'JetBrains Mono', monospace; font-size: 18px; margin-bottom: 6px; color: var(--green); }
+.session-summary .summary-stats { display: flex; gap: 16px; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
+.session-summary .summary-stat { text-align: center; }
+.session-summary .summary-stat .num { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; color: var(--text); }
+.session-summary .summary-stat .lbl { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+
+/* Browse sort */
+.browse-controls { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.browse-sort { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 11px; padding: 8px; border-radius: 8px; }
+
+/* Mobile clock bar */
+.mobile-clock-bar { display: flex; align-items: center; justify-content: space-between; padding: 6px 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); border-bottom: 1px solid var(--border); background: var(--surface); }
+.mobile-clock-bar .clock-time { font-weight: 600; color: var(--text); font-size: 11px; }
+.mobile-clock-bar .reminder-badge { font-size: 9px; padding: 3px 8px; border-radius: 6px; cursor: pointer; }
+.mobile-clock-bar .reminder-badge.nudge { background: rgba(251,191,36,0.1); color: var(--yellow); }
+.mobile-clock-bar .reminder-badge.urgent { background: rgba(239,68,68,0.1); color: var(--red); }
+.mobile-clock-bar .reminder-badge.done { background: rgba(52,211,153,0.1); color: var(--green); }
+.mobile-clock-bar .home-link { color: var(--text-dim); text-decoration: none; font-size: 12px; }
+
+/* Swipe hint */
+.swipe-hint { text-align: center; font-size: 10px; color: var(--text-dim); margin-top: 8px; font-family: 'JetBrains Mono', monospace; }
 </style>
+<link rel="manifest" href="manifest.json">
 </head>
 <body>
+<div class="toast-container" id="toast-container"></div>
 <div class="app" id="app"></div>
 <div id="sync-modal-container"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -1097,9 +1203,15 @@ function simpleHash(str) {
 }
 
 function updateSyncDot(status) {
+  const prev = syncStatus;
   syncStatus = status;
   const dot = document.getElementById('sync-dot');
   if (dot) dot.className = 'sync-dot ' + status;
+  if (typeof syncToast === 'function') {
+    if (status === 'error') syncToast('Sync error \u2014 saved locally', 'yellow');
+    else if (status === 'offline') syncToast('Offline \u2014 saved locally', 'neutral');
+    else if (status === 'synced' && (prev === 'error' || prev === 'offline')) syncToast('Synced!', 'green');
+  }
 }
 
 function pushToFirebase(stateObj) {
@@ -1213,7 +1325,7 @@ function loadState() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) return JSON.parse(saved);
   } catch(e) {}
-  return { cardStates: {}, newPerDay: 5, lastStudyDate: null, newToday: 0, studySessions: 0, unlockedWeeks: {} };
+  return { cardStates: {}, newPerDay: 5, lastStudyDate: null, newToday: 0, studySessions: 0, unlockedWeeks: {}, studyHistory: {} };
 }
 
 function saveState(state) {
@@ -1275,26 +1387,84 @@ function getStats() {
   let newCount = 0, learningCount = 0, reviewCount = 0, masteredCount = 0;
   const now = Date.now();
   const sectionStats = {};
-  
+
   const unlocked = getUnlockedCardIds();
   for (const card of CARDS) {
     if (unlocked.size > 0 && !unlocked.has(card.id)) continue;
     const cs = getCardState(card.id);
-    if (!sectionStats[card.section]) sectionStats[card.section] = { total: 0, studied: 0 };
+    if (!sectionStats[card.section]) sectionStats[card.section] = { total: 0, studied: 0, mastered: 0 };
     sectionStats[card.section].total++;
-    
+
     if (cs.state === 'new') newCount++;
     else {
       sectionStats[card.section].studied++;
       if (cs.state === 'learning') learningCount++;
-      else if (cs.interval >= 21 * 1440) masteredCount++;
+      else if (cs.interval >= 21 * 1440) { masteredCount++; sectionStats[card.section].mastered++; }
       else reviewCount++;
     }
   }
-  
+
   const dueNow = getStudyQueue().length;
   const total = newCount + learningCount + reviewCount + masteredCount;
-  return { newCount, learningCount, reviewCount, masteredCount, dueNow, sectionStats, total };
+
+  // --- Streak calculation ---
+  const history = state.studyHistory || {};
+  let streak = 0;
+  const d = new Date(); d.setHours(0,0,0,0);
+  while (true) {
+    const key = d.toISOString().slice(0, 10);
+    if (history[key] && history[key].reviews > 0) { streak++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  let longestStreak = 0, tempStreak = 0;
+  const allDays = Object.keys(history).sort();
+  for (let i = 0; i < allDays.length; i++) {
+    if (history[allDays[i]].reviews > 0) {
+      if (i === 0) { tempStreak = 1; }
+      else {
+        const prev = new Date(allDays[i - 1]); const curr = new Date(allDays[i]);
+        tempStreak = (curr - prev === 86400000) ? tempStreak + 1 : 1;
+      }
+      longestStreak = Math.max(longestStreak, tempStreak);
+    } else { tempStreak = 0; }
+  }
+
+  // --- Retention rate (last 30 days) ---
+  let ret30Reviews = 0, ret30Correct = 0;
+  const thirtyAgo = new Date(); thirtyAgo.setDate(thirtyAgo.getDate() - 30);
+  for (const [day, data] of Object.entries(history)) {
+    if (new Date(day) >= thirtyAgo) { ret30Reviews += data.reviews; ret30Correct += data.correct; }
+  }
+  const retentionRate = ret30Reviews > 0 ? Math.round((ret30Correct / ret30Reviews) * 100) : null;
+
+  // --- Due forecast (next 7 days) ---
+  const forecast = [];
+  for (let i = 0; i < 7; i++) {
+    const dayStart = new Date(); dayStart.setHours(0,0,0,0); dayStart.setDate(dayStart.getDate() + i);
+    const dayEnd = new Date(dayStart); dayEnd.setDate(dayEnd.getDate() + 1);
+    let count = 0;
+    for (const card of CARDS) {
+      if (unlocked.size > 0 && !unlocked.has(card.id)) continue;
+      const cs = getCardState(card.id);
+      if (cs.state !== 'new' && cs.due >= dayStart.getTime() && cs.due < dayEnd.getTime()) count++;
+    }
+    if (i === 0) {
+      for (const card of CARDS) {
+        if (unlocked.size > 0 && !unlocked.has(card.id)) continue;
+        const cs = getCardState(card.id);
+        if (cs.state !== 'new' && cs.due < dayStart.getTime()) count++;
+      }
+    }
+    const dayLabel = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dayStart.getDay()];
+    forecast.push({ label: i === 0 ? 'Today' : dayLabel, count });
+  }
+
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const reviewsToday = (history[todayKey] && history[todayKey].reviews) || 0;
+  const totalStudyDays = Object.keys(history).filter(k => history[k].reviews > 0).length;
+
+  return { newCount, learningCount, reviewCount, masteredCount, dueNow, sectionStats, total,
+           streak, longestStreak, retentionRate, forecast, reviewsToday, totalStudyDays };
 }
 
 // ===== RENDERING =====
@@ -1306,7 +1476,94 @@ let studyQueue = [];
 let queueIndex = 0;
 let browseFilter = 'All';
 let browseSearch = '';
+let browseSort = 'default';
 let expandedBrowse = new Set();
+let studyStreak = 0;
+let sessionStartTime = null;
+let lastSyncToast = 0;
+
+function showToast(msg, type) {
+  const c = document.getElementById('toast-container');
+  if (!c) return;
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 1600);
+}
+function syncToast(msg, type) {
+  if (Date.now() - lastSyncToast < 10000) return;
+  lastSyncToast = Date.now();
+  showToast(msg, type);
+}
+function exportProgress() {
+  const state = loadState();
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'ib_prep_backup_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click(); URL.revokeObjectURL(url);
+}
+function importProgress() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!data.cardStates) { alert('Invalid backup file'); return; }
+        if (!confirm('This will replace all current progress. Continue?')) return;
+        saveState(data); render();
+        showToast('Progress restored!', 'green');
+      } catch(e) { alert('Failed to read backup file'); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+function updateDailyGoal(val) {
+  const state = loadState();
+  state.dailyGoal = Math.max(5, Math.min(200, parseInt(val) || 20));
+  saveState(state); render();
+}
+const MILESTONES = [
+  { key: 'streak_7', check: s => s.streak >= 7, msg: '7-Day Streak!', sub: 'A full week of consistent study.' },
+  { key: 'streak_30', check: s => s.streak >= 30, msg: '30-Day Streak!', sub: 'An entire month. Incredible dedication.' },
+  { key: 'streak_100', check: s => s.streak >= 100, msg: '100-Day Streak!', sub: 'You are unstoppable.' },
+  { key: 'mastered_10', check: s => s.masteredCount >= 10, msg: '10 Cards Mastered!', sub: 'Your first big milestone.' },
+  { key: 'mastered_50', check: s => s.masteredCount >= 50, msg: '50 Cards Mastered!', sub: 'Building real expertise.' },
+  { key: 'mastered_100', check: s => s.masteredCount >= 100, msg: '100 Cards Mastered!', sub: 'Triple digits. Impressive.' },
+  { key: 'mastered_200', check: s => s.masteredCount >= 200, msg: '200 Cards Mastered!', sub: 'More than halfway there.' },
+  { key: 'mastered_all', check: s => s.masteredCount >= 402, msg: 'ALL CARDS MASTERED!', sub: 'You conquered every question.' },
+];
+function checkMilestones() {
+  const stats = getStats();
+  const achieved = JSON.parse(localStorage.getItem('ib_milestones') || '{}');
+  for (const m of MILESTONES) {
+    if (!achieved[m.key] && m.check(stats)) {
+      achieved[m.key] = Date.now();
+      localStorage.setItem('ib_milestones', JSON.stringify(achieved));
+      showMilestone(m.msg, m.sub); break;
+    }
+  }
+}
+function showMilestone(title, subtitle) {
+  const overlay = document.createElement('div');
+  overlay.className = 'welcome-overlay';
+  overlay.style.cursor = 'pointer';
+  overlay.onclick = () => overlay.remove();
+  overlay.innerHTML = '<div class="welcome-modal" style="max-width:340px;padding:24px;"><div style="font-size:40px;margin-bottom:8px">&#127942;</div><h2 style="font-size:18px">' + title + '</h2><p>' + subtitle + '</p><button class="welcome-btn" style="padding:10px 20px;font-size:12px" onclick="event.stopPropagation();this.closest(\'.welcome-overlay\').remove()">Continue</button></div>';
+  document.body.appendChild(overlay);
+}
+function showWelcomeModal() {
+  const overlay = document.createElement('div');
+  overlay.className = 'welcome-overlay';
+  overlay.innerHTML = '<div class="welcome-modal"><h2>Welcome to IB Prep</h2><p>402 flashcards to master investment banking interviews.</p><div class="welcome-steps"><div class="welcome-step"><span class="step-icon">&#128214;</span><div><strong>Learn</strong> — Read study guides, then unlock cards.</div></div><div class="welcome-step"><span class="step-icon">&#9889;</span><div><strong>Study</strong> — Review cards daily. Swipe or tap to rate.</div></div><div class="welcome-step"><span class="step-icon">&#128200;</span><div><strong>Track</strong> — Build a streak on the Stats dashboard.</div></div></div><p style="font-size:11px;color:var(--text-dim)">Start with <strong>Learn</strong> to read your first study guide.</p><button class="welcome-btn" onclick="this.closest(\'.welcome-overlay\').remove()">Get Started &#8594;</button></div>';
+  document.body.appendChild(overlay);
+}
+function setBrowseSort(v) { browseSort = v; render(); }
 
 function render() {
   const app = document.getElementById('app');
@@ -1327,22 +1584,41 @@ function render() {
       <button class="${currentView === 'browse' ? 'active' : ''}" onclick="switchView('browse')">Browse</button>
       <button class="${currentView === 'settings' ? 'active' : ''}" onclick="switchView('settings')">Settings</button>
     </div>
+    <div class="mobile-clock-bar" id="mobile-clock-bar"></div>
     ${currentView === 'learn' ? renderLearn() : ''}
     ${currentView === 'study' ? renderStudy() : ''}
     ${currentView === 'dashboard' ? renderDashboard(stats) : ''}
     ${currentView === 'browse' ? renderBrowse() : ''}
     ${currentView === 'settings' ? renderSettings() : ''}
   `;
+  // Update mobile clock after render
+  updateMobileClock();
 }
 
 function renderStudy() {
   studyQueue = getStudyQueue();
   
   if (studyQueue.length === 0) {
-    return `<div class="study-view"><div class="empty-state">
-      <div class="emoji">&#9989;</div>
-      <h2>All caught up</h2>
-      <p>${getUnlockedCardIds().size === 0 ? 'No cards unlocked yet. Go to the <strong>Learn</strong> tab to start your first week!' : 'No cards due right now. Come back later for reviews, or increase your daily new card limit in Settings.'}</p>
+    const s = getStats();
+    const st = loadState();
+    const todayKey = new Date().toISOString().slice(0,10);
+    const mins = Math.round((st.studyHistory && st.studyHistory[todayKey] && st.studyHistory[todayKey].minutes) || 0);
+    const goalPct = Math.min(100, Math.round((s.reviewsToday / (st.dailyGoal || 20)) * 100));
+    if (getUnlockedCardIds().size === 0) {
+      return `<div class="study-view"><div class="empty-state"><div class="emoji">&#128218;</div><h2>No cards unlocked yet</h2><p>Go to the <strong>Learn</strong> tab to read your first study guide and unlock cards!</p></div></div>`;
+    }
+    return `<div class="study-view"><div class="session-summary">
+      <div style="font-size:40px;margin-bottom:6px">&#9989;</div>
+      <h2>All caught up!</h2>
+      <p style="color:var(--text-dim);margin-bottom:16px;font-size:13px">Great work. No cards due right now.</p>
+      <div class="summary-stats">
+        <div class="summary-stat"><div class="num" style="color:var(--accent)">${s.reviewsToday}</div><div class="lbl">Reviews</div></div>
+        <div class="summary-stat"><div class="num" style="color:var(--green)">${s.retentionRate !== null ? s.retentionRate + '%' : '--'}</div><div class="lbl">Retention</div></div>
+        <div class="summary-stat"><div class="num" style="color:var(--yellow)">${s.streak}</div><div class="lbl">Streak</div></div>
+        ${mins > 0 ? '<div class="summary-stat"><div class="num">' + mins + 'm</div><div class="lbl">Time</div></div>' : ''}
+      </div>
+      <div style="margin:12px auto;max-width:180px;height:5px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="height:100%;width:${goalPct}%;background:${goalPct >= 100 ? 'var(--green)' : 'var(--accent)'};border-radius:3px"></div></div>
+      <p style="font-size:10px;color:var(--text-dim)">${goalPct >= 100 ? 'Daily goal reached!' : goalPct + '% of daily goal'}</p>
     </div></div>`;
   }
   
@@ -1369,7 +1645,7 @@ function renderStudy() {
   return `<div class="study-view">
     <div class="card-counter">${queueIndex + 1} / ${studyQueue.length}</div>
     <div class="card-container">
-      <div class="flashcard ${isFlipped ? 'flipped' : ''}" onclick="flipCard()">
+      <div class="flashcard ${isFlipped ? 'flipped' : ''}" onclick="flipCard()" role="button" tabindex="0" aria-label="Flashcard - tap to flip">
         <div class="card-face card-front">
           <div class="card-section">${card.section}</div>
           <span class="card-category ${catClass}">${card.category}</span>
@@ -1383,42 +1659,188 @@ function renderStudy() {
       </div>
     </div>
     ${isFlipped ? `<div class="rating-buttons">
-      <button class="rate-btn again" onclick="rateCard(0)">Again<span class="interval">${SM2.intervalText(intervals[0])}</span></button>
-      <button class="rate-btn hard" onclick="rateCard(1)">Hard<span class="interval">${SM2.intervalText(intervals[1])}</span></button>
-      <button class="rate-btn good" onclick="rateCard(2)">Good<span class="interval">${SM2.intervalText(intervals[2])}</span></button>
-      <button class="rate-btn easy" onclick="rateCard(3)">Easy<span class="interval">${SM2.intervalText(intervals[3])}</span></button>
-    </div>` : ''}
+      <button class="rate-btn again" onclick="rateCard(0)" aria-label="Rate Again">Again<span class="interval">${SM2.intervalText(intervals[0])}</span></button>
+      <button class="rate-btn hard" onclick="rateCard(1)" aria-label="Rate Hard">Hard<span class="interval">${SM2.intervalText(intervals[1])}</span></button>
+      <button class="rate-btn good" onclick="rateCard(2)" aria-label="Rate Good">Good<span class="interval">${SM2.intervalText(intervals[2])}</span></button>
+      <button class="rate-btn easy" onclick="rateCard(3)" aria-label="Rate Easy">Easy<span class="interval">${SM2.intervalText(intervals[3])}</span></button>
+    </div>
+    <div class="swipe-hint">\u2190 Again \u00b7 \u2192 Good \u00b7 \u2191 Easy</div>` : ''}
   </div>`;
 }
 
 function renderDashboard(s) {
   const pct = Math.round(((s.total - s.newCount) / s.total) * 100);
-  const circumference = 2 * Math.PI * 68;
+  const circumference = 2 * Math.PI * 48;
   const offset = circumference - (pct / 100) * circumference;
-  
   const sections = Object.entries(s.sectionStats).sort((a,b) => b[1].total - a[1].total);
-  
+
+  const retColor = s.retentionRate === null ? 'var(--text-dim)' : s.retentionRate >= 85 ? 'var(--green)' : s.retentionRate >= 70 ? 'var(--yellow)' : 'var(--orange)';
+  const retDisplay = s.retentionRate === null ? '--' : s.retentionRate + '%';
+
+  // --- Heatmap (last 12 weeks) ---
+  const history = state.studyHistory || {};
+  const heatmapCells = [];
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dayOfWeek = today.getDay();
+  const startDate = new Date(today);
+  startDate.setDate(startDate.getDate() - (11 * 7 + dayOfWeek));
+  const cursor = new Date(startDate);
+  while (cursor <= today) {
+    const key = cursor.toISOString().slice(0, 10);
+    const reviews = (history[key] && history[key].reviews) || 0;
+    const level = reviews === 0 ? '' : reviews <= 5 ? 'l1' : reviews <= 15 ? 'l2' : reviews <= 30 ? 'l3' : 'l4';
+    heatmapCells.push(`<div class="hm-cell ${level}" title="${key}: ${reviews}"></div>`);
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  // --- Radar chart (top 6 sections for mobile) ---
+  const radarSections = sections.slice(0, 6);
+  const radarCore = 240;
+  const radarPad = 100;
+  const radarSize = radarCore + radarPad * 2;
+  const cx = radarSize / 2, cy = radarSize / 2, maxR = 90;
+  const n = radarSections.length;
+  function radarPoint(i, pctVal) {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const r = (pctVal / 100) * maxR;
+    return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)];
+  }
+  const gridRings = [25, 50, 75, 100].map(pctVal => {
+    const pts = [];
+    for (let i = 0; i < n; i++) pts.push(radarPoint(i, pctVal).join(','));
+    return `<polygon points="${pts.join(' ')}" fill="none" stroke="var(--border)" stroke-width="0.8"/>`;
+  }).join('');
+  const axisLines = radarSections.map((_, i) => {
+    const [ex, ey] = radarPoint(i, 100);
+    return `<line x1="${cx}" y1="${cy}" x2="${ex}" y2="${ey}" stroke="var(--border)" stroke-width="0.5"/>`;
+  }).join('');
+  const dataPoints = radarSections.map(([name, data], i) => {
+    const masteryPct = data.total > 0 ? Math.round((data.mastered / data.total) * 100) : 0;
+    return radarPoint(i, Math.max(masteryPct, 2));
+  });
+  const dataPolygon = `<polygon points="${dataPoints.map(p => p.join(',')).join(' ')}" fill="rgba(79,138,255,0.2)" stroke="var(--accent)" stroke-width="1.5"/>`;
+  const dataDots = dataPoints.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3" fill="var(--accent)"/>`).join('');
+  // Labels — wrap long names using tspan, plus percentage line
+  const radarLabels = radarSections.map(([name, data], i) => {
+    const masteryPct = data.total > 0 ? Math.round((data.mastered / data.total) * 100) : 0;
+    const [lx, ly] = radarPoint(i, 120);
+    const anchor = lx < cx - 10 ? 'end' : lx > cx + 10 ? 'start' : 'middle';
+    // Split long names on " -- " or " / " for wrapping
+    let lines;
+    if (name.includes(' -- ')) lines = name.split(' -- ');
+    else if (name.includes(' / ') && name.length > 18) lines = name.split(' / ');
+    else lines = [name];
+    const lineH = 12;
+    const totalH = lines.length * lineH + lineH;
+    const startY = ly - (totalH / 2) + lineH / 2;
+    const nameSpans = lines.map((line, j) =>
+      `<tspan x="${lx}" dy="${j === 0 ? 0 : lineH}">${line.trim()}</tspan>`
+    ).join('');
+    return `<text x="${lx}" y="${startY}" text-anchor="${anchor}" dominant-baseline="middle" fill="var(--text-dim)" font-size="9" font-family="'JetBrains Mono', monospace">${nameSpans}</text>
+    <text x="${lx}" y="${startY + lines.length * lineH}" text-anchor="${anchor}" dominant-baseline="middle" fill="var(--accent)" font-size="8" font-family="'JetBrains Mono', monospace">${masteryPct}%</text>`;
+  }).join('');
+
+  // --- Forecast bars ---
+  const maxForecast = Math.max(1, ...s.forecast.map(f => f.count));
+  const forecastBars = s.forecast.map(f => {
+    const h = Math.max(2, Math.round((f.count / maxForecast) * 60));
+    return `<div class="forecast-col">
+      <div class="forecast-count">${f.count}</div>
+      <div class="forecast-bar" style="height:${h}px"></div>
+      <div class="forecast-day">${f.label}</div>
+    </div>`;
+  }).join('');
+
   return `<div class="dashboard">
-    <div class="progress-ring">
-      <div class="ring-container">
-        <svg width="160" height="160">
-          <circle cx="80" cy="80" r="68" fill="none" stroke="var(--surface2)" stroke-width="8"/>
-          <circle cx="80" cy="80" r="68" fill="none" stroke="var(--accent)" stroke-width="8"
-            stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"
-            stroke-linecap="round" style="transition: stroke-dashoffset 1s ease"/>
-        </svg>
-        <div class="ring-center">
-          <div class="pct">${pct}%</div>
-          <div class="label">seen</div>
+    <!-- Key Metrics -->
+    <div class="metrics-bar">
+      <div class="metric-card">
+        <div class="metric-icon">&#128293;</div>
+        <div class="metric-info">
+          <div class="metric-val" style="color:var(--orange)">${s.streak}</div>
+          <div class="metric-lbl">Streak</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">&#127919;</div>
+        <div class="metric-info">
+          <div class="metric-val" style="color:${retColor}">${retDisplay}</div>
+          <div class="metric-lbl">Retention</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">&#9989;</div>
+        <div class="metric-info">
+          <div class="metric-val" style="color:var(--accent)">${s.masteredCount}<span style="font-size:12px;color:var(--text-dim)">/${s.total}</span></div>
+          <div class="metric-lbl">Mastered</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">&#128214;</div>
+        <div class="metric-info">
+          <div class="metric-val" style="color:var(--green)">${s.dueNow}</div>
+          <div class="metric-lbl">Due</div>
         </div>
       </div>
     </div>
-    <div class="stats-grid">
-      <div class="stat-card"><div class="num" style="color:var(--text-dim)">${s.newCount}</div><div class="lbl">Unseen</div></div>
-      <div class="stat-card"><div class="num" style="color:var(--orange)">${s.learningCount}</div><div class="lbl">Learning</div></div>
-      <div class="stat-card"><div class="num" style="color:var(--green)">${s.reviewCount}</div><div class="lbl">Reviewing</div></div>
-      <div class="stat-card"><div class="num" style="color:var(--accent)">${s.masteredCount}</div><div class="lbl">Mastered</div></div>
+
+    <!-- Heatmap -->
+    <div class="heatmap-panel">
+      <h3>Activity — Last 12 Weeks</h3>
+      <div class="heatmap-wrap">
+        <div class="heatmap-days">
+          <span></span><span>M</span><span></span><span>W</span><span></span><span>F</span><span></span>
+        </div>
+        <div class="heatmap-grid">${heatmapCells.join('')}</div>
+      </div>
+      <div class="heatmap-legend">
+        <span>Less</span>
+        <div class="hm-cell"></div><div class="hm-cell l1"></div><div class="hm-cell l2"></div><div class="hm-cell l3"></div><div class="hm-cell l4"></div>
+        <span>More</span>
+      </div>
     </div>
+
+    <!-- Progress Ring + Mini Stats -->
+    <div class="ring-panel">
+      <div class="progress-ring">
+        <div class="ring-container">
+          <svg width="120" height="120">
+            <circle cx="60" cy="60" r="48" fill="none" stroke="var(--surface2)" stroke-width="6"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="var(--accent)" stroke-width="6"
+              stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"
+              stroke-linecap="round" style="transition: stroke-dashoffset 1s ease"/>
+          </svg>
+          <div class="ring-center">
+            <div class="pct">${pct}%</div>
+            <div class="label">seen</div>
+          </div>
+        </div>
+      </div>
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="num" style="color:var(--text-dim)">${s.newCount}</div><div class="lbl">Unseen</div></div>
+        <div class="mini-stat"><div class="num" style="color:var(--orange)">${s.learningCount}</div><div class="lbl">Learning</div></div>
+        <div class="mini-stat"><div class="num" style="color:var(--green)">${s.reviewCount}</div><div class="lbl">Review</div></div>
+        <div class="mini-stat"><div class="num" style="color:var(--accent)">${s.masteredCount}</div><div class="lbl">Mastered</div></div>
+      </div>
+    </div>
+
+    <!-- Radar Chart -->
+    <div class="radar-panel">
+      <h3>Strengths &amp; Weaknesses</h3>
+      <div class="radar-container">
+        <svg width="100%" viewBox="0 0 ${radarSize} ${radarSize}" overflow="visible" style="max-width:${radarSize}px">
+          ${gridRings}${axisLines}${dataPolygon}${dataDots}${radarLabels}
+        </svg>
+      </div>
+    </div>
+
+    <!-- Forecast -->
+    <div class="forecast-panel">
+      <h3>Upcoming Reviews</h3>
+      <div class="forecast-bars">${forecastBars}</div>
+    </div>
+
+    <!-- Section Breakdown -->
     <div class="section-breakdown">
       <h3>By Section</h3>
       ${sections.map(([name, data]) => {
@@ -1437,18 +1859,30 @@ function renderDashboard(s) {
 function renderBrowse() {
   const categories = ['All', 'Technical', 'Fit / Behavioral', 'Restructuring', 'Deal Experience'];
   
-  let filtered = CARDS;
+  let filtered = CARDS.slice();
   if (browseFilter !== 'All') filtered = filtered.filter(c => c.category === browseFilter);
   if (browseSearch) {
     const q = browseSearch.toLowerCase();
     filtered = filtered.filter(c => c.question.toLowerCase().includes(q) || c.section.toLowerCase().includes(q));
   }
-  
-  // Show max 50 at a time
+  if (browseSort === 'weakest') filtered.sort((a,b) => { const sa = state.cardStates[a.id], sb = state.cardStates[b.id]; return (sa ? sa.easeFactor : 2.5) - (sb ? sb.easeFactor : 2.5); });
+  else if (browseSort === 'strongest') filtered.sort((a,b) => { const sa = state.cardStates[a.id], sb = state.cardStates[b.id]; return (sb ? sb.easeFactor : 2.5) - (sa ? sa.easeFactor : 2.5); });
+  else if (browseSort === 'due') filtered.sort((a,b) => { const sa = state.cardStates[a.id], sb = state.cardStates[b.id]; return (sa ? sa.dueDate || 0 : 0) - (sb ? sb.dueDate || 0 : 0); });
+  else if (browseSort === 'section') filtered.sort((a,b) => a.section.localeCompare(b.section));
+
   const shown = filtered.slice(0, 50);
-  
+
   return `<div class="browse-view">
-    <input class="search-box" type="text" placeholder="Search questions..." value="${escHtml(browseSearch)}" oninput="updateSearch(this.value)">
+    <div class="browse-controls">
+      <input class="search-box" style="flex:1" type="text" placeholder="Search..." value="${escHtml(browseSearch)}" oninput="updateSearch(this.value)">
+      <select class="browse-sort" onchange="setBrowseSort(this.value)">
+        <option value="default" ${browseSort==='default'?'selected':''}>Default</option>
+        <option value="weakest" ${browseSort==='weakest'?'selected':''}>Weakest</option>
+        <option value="strongest" ${browseSort==='strongest'?'selected':''}>Strongest</option>
+        <option value="due" ${browseSort==='due'?'selected':''}>Due soonest</option>
+        <option value="section" ${browseSort==='section'?'selected':''}>Section</option>
+      </select>
+    </div>
     <div class="filter-row">
       ${categories.map(c => `<button class="filter-btn ${browseFilter === c ? 'active' : ''}" onclick="setFilter('${c}')">${c}</button>`).join('')}
     </div>
@@ -1470,14 +1904,26 @@ function renderBrowse() {
 function renderSettings() {
   return `<div class="settings-view">
     <div class="setting-group">
-      <h3>Daily Limits</h3>
+      <h3>Study Preferences</h3>
       <div class="setting-row">
         <label>New cards per day</label>
         <input type="number" min="1" max="50" value="${state.newPerDay}" onchange="updateNewPerDay(this.value)">
       </div>
       <div class="setting-row">
-        <label>New cards studied today</label>
+        <label>Daily review goal</label>
+        <input type="number" min="5" max="200" value="${state.dailyGoal || 20}" onchange="updateDailyGoal(this.value)">
+      </div>
+      <div class="setting-row">
+        <label>Studied today</label>
         <span style="font-family:'JetBrains Mono',monospace;color:var(--accent)">${state.newToday}</span>
+      </div>
+    </div>
+    <div class="setting-group">
+      <h3>Backup</h3>
+      <p style="font-size:11px;color:var(--text-dim);margin-bottom:8px">Download or restore your progress.</p>
+      <div style="display:flex;gap:8px">
+        <button class="danger-btn" style="background:var(--accent-dim);color:var(--text);flex:1" onclick="exportProgress()">Export</button>
+        <button class="danger-btn" style="background:var(--surface2);color:var(--text);flex:1" onclick="importProgress()">Import</button>
       </div>
     </div>
     <div class="setting-group">
@@ -1582,7 +2028,20 @@ function renderWeekDetail(weekNum) {
 }
 
 // ===== ACTIONS =====
-function switchView(v) { currentView = v; isFlipped = false; queueIndex = 0; curriculumWeekView = null; render(); }
+function switchView(v) {
+  if (currentView === 'study' && sessionStartTime) {
+    const elapsed = (Date.now() - sessionStartTime) / 60000;
+    const st = loadState();
+    const today = new Date().toISOString().slice(0,10);
+    if (!st.studyHistory) st.studyHistory = {};
+    if (!st.studyHistory[today]) st.studyHistory[today] = { reviews: 0, correct: 0, minutes: 0 };
+    if (!st.studyHistory[today].minutes) st.studyHistory[today].minutes = 0;
+    st.studyHistory[today].minutes += elapsed;
+    saveState(st); sessionStartTime = null;
+  }
+  if (v === 'study') sessionStartTime = Date.now();
+  currentView = v; isFlipped = false; queueIndex = 0; curriculumWeekView = null; render();
+}
 function viewWeek(weekNum) { curriculumWeekView = weekNum; render(); }
 function unlockWeek(weekNum) {
   if (!state.unlockedWeeks) state.unlockedWeeks = {};
@@ -1600,9 +2059,17 @@ function rateCard(quality) {
     state.newToday++;
   }
   SM2.review(cs, quality);
+
+  // Track study history for stats
+  if (!state.studyHistory) state.studyHistory = {};
+  const today = new Date().toISOString().slice(0, 10);
+  if (!state.studyHistory[today]) state.studyHistory[today] = { reviews: 0, correct: 0 };
+  state.studyHistory[today].reviews++;
+  if (quality >= 2) state.studyHistory[today].correct++;
+
   saveState(state);
   isFlipped = false;
-  
+
   // Move to next card
   studyQueue = getStudyQueue();
   if (studyQueue.length === 0) {
@@ -1611,6 +2078,14 @@ function rateCard(quality) {
     queueIndex = queueIndex % studyQueue.length;
   }
   render();
+
+  // Toast feedback
+  if (quality >= 3) { studyStreak++; showToast('Perfect!', 'green'); }
+  else if (quality >= 2) { studyStreak++; showToast('Nice!', 'green'); }
+  else if (quality === 1) { studyStreak = 0; showToast('Keep at it', 'yellow'); }
+  else { studyStreak = 0; showToast("You'll get it next time", 'neutral'); }
+  if (studyStreak >= 3 && quality >= 2) showToast('\uD83D\uDD25 ' + studyStreak + ' in a row!', 'green');
+  checkMilestones();
 }
 
 function updateSearch(v) { browseSearch = v; render(); }
@@ -1659,6 +2134,84 @@ try {
     }
   }
 } catch(e) { console.warn('Firebase not available:', e); }
+
+// ===== MOBILE CLOCK =====
+function updateMobileClock() {
+  const el = document.getElementById('mobile-clock-bar');
+  if (!el) return;
+  const TZ = 'Australia/Brisbane';
+  const now = new Date();
+  const opts = { timeZone: TZ };
+  const time = now.toLocaleTimeString('en-AU', { ...opts, hour: '2-digit', minute: '2-digit', hour12: true });
+  const hour = parseInt(now.toLocaleString('en-AU', { ...opts, hour: 'numeric', hour12: false }));
+  let studiedToday = false;
+  try {
+    const saved = localStorage.getItem('ib_flashcards_v2');
+    if (saved) {
+      const st = JSON.parse(saved);
+      const todayKey = new Date(now.toLocaleString('en-US', { timeZone: TZ })).toISOString().slice(0, 10);
+      studiedToday = st.studyHistory && st.studyHistory[todayKey] && st.studyHistory[todayKey].reviews > 0;
+    }
+  } catch(e) {}
+  let reminder = '';
+  if (studiedToday) reminder = '<span class="reminder-badge done">Done today</span>';
+  else if (hour >= 22) reminder = '<span class="reminder-badge urgent" onclick="switchView(\'study\')">Study now!</span>';
+  else if (hour >= 20) reminder = '<span class="reminder-badge nudge" onclick="switchView(\'study\')">Not studied yet</span>';
+  el.innerHTML = '<a href="index.html" class="home-link">&#127968;</a><span class="clock-time">' + time + '</span><span>BRIS</span>' + reminder;
+}
+setInterval(updateMobileClock, 1000);
+
+// ===== SWIPE GESTURES =====
+let touchStartX = 0, touchStartY = 0, swiping = false;
+document.addEventListener('touchstart', (e) => {
+  const card = e.target.closest('.flashcard');
+  if (!card || !isFlipped) return;
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+  swiping = true;
+}, { passive: true });
+document.addEventListener('touchmove', (e) => {
+  if (!swiping) return;
+  const dx = e.touches[0].clientX - touchStartX;
+  const dy = e.touches[0].clientY - touchStartY;
+  const card = document.querySelector('.flashcard');
+  if (!card) return;
+  if (Math.abs(dx) > 30) {
+    card.style.transform = 'rotateX(180deg) translateX(' + (dx * 0.3) + 'px)';
+    card.style.opacity = Math.max(0.5, 1 - Math.abs(dx) / 300);
+  } else if (dy < -30) {
+    card.style.transform = 'rotateX(180deg) translateY(' + (dy * 0.3) + 'px)';
+    card.style.opacity = Math.max(0.5, 1 - Math.abs(dy) / 300);
+  }
+}, { passive: true });
+document.addEventListener('touchend', (e) => {
+  if (!swiping) return;
+  swiping = false;
+  const card = document.querySelector('.flashcard');
+  if (card) { card.style.transform = ''; card.style.opacity = ''; }
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+    if (dx > 0) rateCard(2); // Good
+    else rateCard(0); // Again
+  } else if (dy < -50 && Math.abs(dy) > Math.abs(dx)) {
+    rateCard(3); // Easy
+  }
+});
+
+// ===== ONBOARDING =====
+(function() {
+  const s = loadState();
+  if (!s.studySessions && Object.keys(s.cardStates).length === 0 && !localStorage.getItem('ib_welcome_shown')) {
+    setTimeout(showWelcomeModal, 500);
+    localStorage.setItem('ib_welcome_shown', '1');
+  }
+})();
+
+// ===== SERVICE WORKER =====
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
 </script>
 </body>
 </html>
